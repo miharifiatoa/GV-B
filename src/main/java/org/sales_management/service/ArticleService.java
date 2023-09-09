@@ -4,44 +4,26 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.sales_management.HibernateUtil;
-import org.sales_management.entity.AccountEntity;
+import org.sales_management.entity.ArticleEntity;
 import org.sales_management.interfaces.CrudInterface;
-import org.sales_management.repository.AccountRepository;
+import org.sales_management.repository.ArticleRepository;
 
 import java.util.Collection;
 import java.util.HashSet;
 
-public class AccountService implements CrudInterface<AccountEntity> {
-    private final AccountRepository accountRepository;
+public class ArticleService implements CrudInterface<ArticleEntity> {
+    private final ArticleRepository articleRepository;
 
-    public AccountService() {
-        this.accountRepository = new AccountRepository();
+    public ArticleService() {
+        this.articleRepository = new ArticleRepository();
     }
 
     @Override
-    public AccountEntity create(AccountEntity account) {
-        Transaction transaction = null;
-        try {
-            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            transaction = session.beginTransaction();
-            this.accountRepository.create(account);
-            transaction.commit();
-        }
-        catch (Exception e){
-            if (transaction!=null){
-                transaction.rollback();
-            }
-        }
-        return account;
-    }
-
-    @Override
-    public AccountEntity getById(Long id) {
-        AccountEntity account = new AccountEntity();
+    public ArticleEntity create(ArticleEntity article) {
         Transaction transaction = null;
         try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            account = accountRepository.getById(id);
+            this.articleRepository.create(article);
             transaction.commit();
         }
         catch (Exception e){
@@ -49,16 +31,16 @@ public class AccountService implements CrudInterface<AccountEntity> {
                 transaction.rollback();
             }
         }
-        return account;
+        return article;
     }
 
     @Override
-    public AccountEntity deleteById(Long id) {
-        AccountEntity account = new AccountEntity();
+    public ArticleEntity getById(Long id) {
         Transaction transaction = null;
+        ArticleEntity article = new ArticleEntity();
         try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            account = this.accountRepository.deleteById(id);
+            article = this.articleRepository.getById(id);
             transaction.commit();
         }
         catch (Exception e){
@@ -66,37 +48,54 @@ public class AccountService implements CrudInterface<AccountEntity> {
                 transaction.rollback();
             }
         }
-        return account;
+        return article;
     }
 
     @Override
-    public AccountEntity update(AccountEntity obj) {
+    public ArticleEntity deleteById(Long id) {
+        Transaction transaction = null;
+        ArticleEntity article = new ArticleEntity();
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            article = this.articleRepository.deleteById(id);
+            transaction.commit();
+        }
+        catch (Exception e){
+            if (transaction!=null){
+                transaction.rollback();
+            }
+        }
+        return article;
+    }
+
+    @Override
+    public ArticleEntity update(ArticleEntity obj) {
         return null;
     }
 
     @Override
-    public Collection<AccountEntity> getAll() {
-        Collection<AccountEntity> collection = new HashSet<>();
+    public Collection<ArticleEntity> getAll() {
         Transaction transaction = null;
-        try {
-            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Collection<ArticleEntity> articles = new HashSet<>();
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            collection = this.accountRepository.getAll();
+            articles = this.articleRepository.getAll();
             transaction.commit();
-        } catch (HibernateException e) {
+        }
+        catch (Exception e){
             if (transaction!=null){
                 transaction.rollback();
             }
         }
-        return collection;
+        return articles;
     }
-    public boolean isUniqueValue(String value){
+    public boolean isUniqueValue(String code){
         boolean isUnique = false;
         Transaction transaction = null;
         try {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
-            isUnique = this.accountRepository.isUniqueValue(value);
+            isUnique = this.articleRepository.isUniqueValue(code);
             transaction.commit();
         } catch (HibernateException e) {
             if (transaction!=null){

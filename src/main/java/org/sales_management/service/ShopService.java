@@ -5,26 +5,26 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.sales_management.HibernateUtil;
 import org.sales_management.entity.AccountEntity;
+import org.sales_management.entity.ShopEntity;
 import org.sales_management.interfaces.CrudInterface;
-import org.sales_management.repository.AccountRepository;
+import org.sales_management.repository.ShopRepository;
 
 import java.util.Collection;
 import java.util.HashSet;
 
-public class AccountService implements CrudInterface<AccountEntity> {
-    private final AccountRepository accountRepository;
-
-    public AccountService() {
-        this.accountRepository = new AccountRepository();
+public class ShopService implements CrudInterface<ShopEntity> {
+    private final ShopRepository shopRepository;
+    public ShopService() {
+        this.shopRepository = new ShopRepository();
     }
 
     @Override
-    public AccountEntity create(AccountEntity account) {
+    public ShopEntity create(ShopEntity shop) {
         Transaction transaction = null;
         try {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
-            this.accountRepository.create(account);
+            this.shopRepository.create(shop);
             transaction.commit();
         }
         catch (Exception e){
@@ -32,16 +32,16 @@ public class AccountService implements CrudInterface<AccountEntity> {
                 transaction.rollback();
             }
         }
-        return account;
+        return shop;
     }
 
     @Override
-    public AccountEntity getById(Long id) {
-        AccountEntity account = new AccountEntity();
+    public ShopEntity getById(Long id) {
+        ShopEntity shop = new ShopEntity();
         Transaction transaction = null;
         try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            account = accountRepository.getById(id);
+            shop = shopRepository.getById(id);
             transaction.commit();
         }
         catch (Exception e){
@@ -49,16 +49,17 @@ public class AccountService implements CrudInterface<AccountEntity> {
                 transaction.rollback();
             }
         }
-        return account;
+        return shop;
     }
 
     @Override
-    public AccountEntity deleteById(Long id) {
-        AccountEntity account = new AccountEntity();
+    public ShopEntity deleteById(Long id) {
+
+        ShopEntity shop = new ShopEntity();
         Transaction transaction = null;
         try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            account = this.accountRepository.deleteById(id);
+            shop = this.shopRepository.deleteById(id);
             transaction.commit();
         }
         catch (Exception e){
@@ -66,22 +67,22 @@ public class AccountService implements CrudInterface<AccountEntity> {
                 transaction.rollback();
             }
         }
-        return account;
+        return shop;
     }
 
     @Override
-    public AccountEntity update(AccountEntity obj) {
+    public ShopEntity update(ShopEntity obj) {
         return null;
     }
 
     @Override
-    public Collection<AccountEntity> getAll() {
-        Collection<AccountEntity> collection = new HashSet<>();
+    public Collection<ShopEntity> getAll() {
+        Collection<ShopEntity> collection = new HashSet<>();
         Transaction transaction = null;
         try {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
-            collection = this.accountRepository.getAll();
+            collection = this.shopRepository.getAll();
             transaction.commit();
         } catch (HibernateException e) {
             if (transaction!=null){
@@ -89,20 +90,5 @@ public class AccountService implements CrudInterface<AccountEntity> {
             }
         }
         return collection;
-    }
-    public boolean isUniqueValue(String value){
-        boolean isUnique = false;
-        Transaction transaction = null;
-        try {
-            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-            transaction = session.beginTransaction();
-            isUnique = this.accountRepository.isUniqueValue(value);
-            transaction.commit();
-        } catch (HibernateException e) {
-            if (transaction!=null){
-                transaction.rollback();
-            }
-        }
-        return isUnique;
     }
 }

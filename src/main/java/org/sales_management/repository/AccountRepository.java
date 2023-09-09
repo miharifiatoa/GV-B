@@ -1,5 +1,6 @@
 package org.sales_management.repository;
 
+import jakarta.persistence.EntityManager;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.sales_management.HibernateUtil;
@@ -18,16 +19,18 @@ public class AccountRepository implements CrudInterface<AccountEntity> {
 
     @Override
     public AccountEntity getById(Long id) {
-        new AccountEntity();
-        AccountEntity account;
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        account = session.get(AccountEntity.class,id);
-        return account;
+        return  session.get(AccountEntity.class,id);
     }
 
     @Override
     public AccountEntity deleteById(Long id) {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        AccountEntity account = getById(id);
+        if (account!=null){
+            session.remove(account);
+        }
+        return account;
     }
 
     @Override
@@ -38,8 +41,7 @@ public class AccountRepository implements CrudInterface<AccountEntity> {
     @Override
     public Collection<AccountEntity> getAll() {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        Query<AccountEntity> query = session.createQuery("from AccountEntity",AccountEntity.class);
-        return query.getResultList();
+        return session.createQuery("from AccountEntity",AccountEntity.class).getResultList();
     }
     public boolean isUniqueValue(String value){
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
