@@ -2,7 +2,7 @@ package org.sales_management.entity;
 
 import jakarta.persistence.*;
 
-import java.util.Collections;
+import java.util.Collection;
 
 @Entity
 @Table(name = "inventories")
@@ -13,7 +13,7 @@ public class InventoryEntity {
     @Column(unique = true)
     private Integer code;
     @OneToMany(mappedBy = "inventory")
-    private Collections products;
+    private Collection<ProductEntity> products;
 
     public Long getId() {
         return id;
@@ -31,11 +31,11 @@ public class InventoryEntity {
         this.code = code;
     }
 
-    public Collections getProducts() {
+    public Collection<ProductEntity> getProducts() {
         return products;
     }
 
-    public void setProducts(Collections products) {
+    public void setProducts(Collection<ProductEntity> products) {
         this.products = products;
     }
 }

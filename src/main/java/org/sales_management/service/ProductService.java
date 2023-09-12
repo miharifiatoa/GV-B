@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.HashSet;
 
 public class ProductService implements CrudInterface<ProductEntity> {
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
 
     public ProductService() {
         this.productRepository = new ProductRepository();

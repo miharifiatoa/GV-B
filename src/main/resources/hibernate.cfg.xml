@@ -39,5 +39,7 @@
         <mapping class="org.sales_management.entity.AccountEntity"/>
         <mapping class="org.sales_management.entity.ShopEntity"/>
         <mapping class="org.sales_management.entity.ArticleEntity"/>
+        <mapping class="org.sales_management.entity.InventoryEntity"/>
+        <mapping class="org.sales_management.entity.ProductEntity"/>
     </session-factory>
 </hibernate-configuration>

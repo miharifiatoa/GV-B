@@ -2,6 +2,7 @@ package org.sales_management.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
 import java.util.Collections;
 
 @Entity
@@ -10,13 +11,13 @@ public class ArticleEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String code;
+    @Column(nullable = false)
     private String label;
     private String family;
-    @Transient
     @OneToMany(mappedBy = "article")
-    private Collections products;
+    private Collection<ProductEntity> products;
 
     public Long getId() {
         return id;
@@ -50,11 +51,11 @@ public class ArticleEntity {
         this.family = family;
     }
 
-    public Collections getProducts() {
+    public Collection<ProductEntity> getProducts() {
         return products;
     }
 
-    public void setProducts(Collections products) {
+    public void setProducts(Collection<ProductEntity> products) {
         this.products = products;
     }
 }

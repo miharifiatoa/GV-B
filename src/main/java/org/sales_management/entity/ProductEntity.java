@@ -10,14 +10,17 @@ public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(nullable = false)
     private String name;
     private  String brand;
     private String reference;
     private String color;
-    private String size;
+    @Column(nullable = false)
+    private int quantity;
+    private String quality;
+    @Column(nullable = false)
     private Double price;
     private LocalDateTime arrival;
-    @Column(name = "article_id")
     @ManyToOne
     @JoinColumn(name = "article_id")
     private ArticleEntity article;
@@ -65,12 +68,21 @@ public class ProductEntity {
         this.color = color;
     }
 
-    public String getSize() {
-        return size;
+
+    public int getQuantity() {
+        return quantity;
     }
 
-    public void setSize(String size) {
-        this.size = size;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getQuality() {
+        return quality;
+    }
+
+    public void setQuality(String quality) {
+        this.quality = quality;
     }
 
     public Double getPrice() {

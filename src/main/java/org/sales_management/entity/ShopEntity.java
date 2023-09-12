@@ -2,6 +2,7 @@ package org.sales_management.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
 import java.util.Collections;
 
 @Entity
@@ -17,7 +18,12 @@ public class ShopEntity {
     private String email;
     @Transient
     @OneToMany
-    private Collections products;
+    @JoinTable(
+            name = "shop_products",
+            joinColumns = @JoinColumn(name = "shop_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private Collection<ProductEntity> products;
 
     public Long getId() {
         return id;
@@ -59,11 +65,11 @@ public class ShopEntity {
         this.email = email;
     }
 
-    public Collections getProducts() {
+    public Collection<ProductEntity> getProducts() {
         return products;
     }
 
-    public void setProducts(Collections products) {
+    public void setProducts(Collection<ProductEntity> products) {
         this.products = products;
     }
 }
