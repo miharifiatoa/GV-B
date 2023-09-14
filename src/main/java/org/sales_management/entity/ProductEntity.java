@@ -3,6 +3,7 @@ package org.sales_management.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Entity
 @Table(name = "products")
@@ -15,19 +16,20 @@ public class ProductEntity {
     private  String brand;
     private String reference;
     private String color;
+    private String sizes;
     @Column(nullable = false)
     private int quantity;
     private String quality;
     @Column(nullable = false)
     private Double price;
-    private LocalDateTime arrival;
     @ManyToOne
     @JoinColumn(name = "article_id")
     private ArticleEntity article;
     @ManyToOne
     @JoinColumn(name = "inventory_id")
     private InventoryEntity inventory;
-
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private Collection<StockHistoryEntity> stockHistories;
     public Long getId() {
         return id;
     }
@@ -68,6 +70,13 @@ public class ProductEntity {
         this.color = color;
     }
 
+    public String getSizes() {
+        return sizes;
+    }
+
+    public void setSizes(String sizes) {
+        this.sizes = sizes;
+    }
 
     public int getQuantity() {
         return quantity;
@@ -93,14 +102,6 @@ public class ProductEntity {
         this.price = price;
     }
 
-    public LocalDateTime getArrival() {
-        return arrival;
-    }
-
-    public void setArrival(LocalDateTime arrival) {
-        this.arrival = arrival;
-    }
-
     public InventoryEntity getInventory() {
         return inventory;
     }
@@ -115,5 +116,13 @@ public class ProductEntity {
 
     public void setArticle(ArticleEntity article) {
         this.article = article;
+    }
+
+    public Collection<StockHistoryEntity> getStockHistories() {
+        return stockHistories;
+    }
+
+    public void setStockHistories(Collection<StockHistoryEntity> stockHistories) {
+        this.stockHistories = stockHistories;
     }
 }

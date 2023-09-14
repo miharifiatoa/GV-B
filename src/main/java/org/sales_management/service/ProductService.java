@@ -4,17 +4,22 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.sales_management.HibernateUtil;
 import org.sales_management.entity.ProductEntity;
+import org.sales_management.entity.StockHistoryEntity;
 import org.sales_management.interfaces.CrudInterface;
 import org.sales_management.repository.ProductRepository;
+import org.sales_management.repository.StockHistoryRepository;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 
 public class ProductService implements CrudInterface<ProductEntity> {
     private final ProductRepository productRepository;
+    private final StockHistoryRepository stockHistoryRepository;
 
     public ProductService() {
         this.productRepository = new ProductRepository();
+        this.stockHistoryRepository = new StockHistoryRepository();
     }
 
     @Override
@@ -68,10 +73,21 @@ public class ProductService implements CrudInterface<ProductEntity> {
     }
 
     @Override
-    public ProductEntity update(ProductEntity obj) {
-        return null;
+    public ProductEntity update(ProductEntity new_product) {
+        Transaction transaction = null;
+        ProductEntity product = new ProductEntity();
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            product = this.productRepository.update(new_product);
+            transaction.commit();
+        }
+        catch (Exception e){
+            if (transaction!=null){
+                transaction.rollback();
+            }
+        }
+        return product;
     }
-
     @Override
     public Collection<ProductEntity> getAll() {
         Transaction transaction = null;
@@ -87,5 +103,27 @@ public class ProductService implements CrudInterface<ProductEntity> {
             e.printStackTrace();
         }
         return products;
+    }
+    public ProductEntity addProduct(int quantity_added,ProductEntity product) {
+        Transaction transaction = null;
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            if (product!=null){
+                StockHistoryEntity stockHistory = new StockHistoryEntity();
+                stockHistory.setArrivalDate(LocalDateTime.now());
+                stockHistory.setQuantity(quantity_added);
+                stockHistory.setProduct(product);
+                product.setQuantity(product.getQuantity()+quantity_added);
+                this.stockHistoryRepository.create(stockHistory);
+                this.productRepository.update(product);
+                transaction.commit();
+            }
+        }
+        catch (Exception e){
+            if (transaction!=null){
+                transaction.rollback();
+            }
+        }
+        return product;
     }
 }
