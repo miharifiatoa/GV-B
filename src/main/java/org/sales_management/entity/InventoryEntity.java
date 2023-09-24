@@ -2,11 +2,12 @@ package org.sales_management.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
 @Table(name = "inventories")
-public class InventoryEntity {
+public class InventoryEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

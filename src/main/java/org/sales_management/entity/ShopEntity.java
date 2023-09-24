@@ -16,14 +16,8 @@ public class ShopEntity {
     private String Address;
     private Long contact;
     private String email;
-    @Transient
-    @OneToMany
-    @JoinTable(
-            name = "shop_products",
-            joinColumns = @JoinColumn(name = "shop_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
-    private Collection<ProductEntity> products;
+    @OneToMany(mappedBy = "shop")
+    private Collection<ShopProductEntity> products;
 
     public Long getId() {
         return id;
@@ -65,11 +59,11 @@ public class ShopEntity {
         this.email = email;
     }
 
-    public Collection<ProductEntity> getProducts() {
+    public Collection<ShopProductEntity> getProducts() {
         return products;
     }
 
-    public void setProducts(Collection<ProductEntity> products) {
+    public void setProducts(Collection<ShopProductEntity> products) {
         this.products = products;
     }
 }
