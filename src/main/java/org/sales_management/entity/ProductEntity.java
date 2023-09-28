@@ -2,13 +2,17 @@ package org.sales_management.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Objects;
 
 @Entity
 @Table(name = "products")
 public class ProductEntity implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -125,5 +129,13 @@ public class ProductEntity implements Serializable {
 
     public void setStockHistories(Collection<StockHistoryEntity> stockHistories) {
         this.stockHistories = stockHistories;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ProductEntity product = (ProductEntity) o;
+        return Objects.equals(id, product.id);
     }
 }
