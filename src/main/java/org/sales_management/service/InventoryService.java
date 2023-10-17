@@ -85,26 +85,26 @@ public class InventoryService implements CrudInterface<InventoryEntity> {
         return inventories;
     }
 
-    public ProductEntity shareProducts(ProductEntity product, ShopEntity shop,int quantity_shared){
-        Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
-            transaction = session.beginTransaction();
-            if (product.getQuantity()>=quantity_shared){
-                product.setQuantity(quantity_shared);
-                ShopProductEntity shopProduct = new ShopProductEntity();
-                shopProduct.setShop(shop);
-                shopProduct.setProduct(product);
-                this.productRepository.shareProduct(product, quantity_shared);
-                this.shopProductRepository.create(shopProduct);
-                transaction.commit();
-            }
-            else System.out.println("Produits insuffisant");
-        }
-        catch (Exception e){
-            if (transaction!=null){
-                transaction.rollback();
-            }
-        }
-        return product;
-    }
+//    public ProductEntity shareProducts(ProductEntity product, ShopEntity shop,int quantity_shared){
+//        Transaction transaction = null;
+//        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+//            transaction = session.beginTransaction();
+//            if (product.getQuantity()>=quantity_shared){
+//                product.setQuantity(quantity_shared);
+//                ShopProductEntity shopProduct = new ShopProductEntity();
+//                shopProduct.setShop(shop);
+//                shopProduct.setProduct(product);
+//                this.productRepository.shareProduct(product, quantity_shared);
+//                this.shopProductRepository.create(shopProduct);
+//                transaction.commit();
+//            }
+//            else System.out.println("Produits insuffisant");
+//        }
+//        catch (Exception e){
+//            if (transaction!=null){
+//                transaction.rollback();
+//            }
+//        }
+//        return product;
+//    }
 }

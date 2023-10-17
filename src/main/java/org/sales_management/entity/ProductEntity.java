@@ -18,15 +18,8 @@ public class ProductEntity implements Serializable {
     private Long id;
     @Column(nullable = false)
     private String name;
-    private  String brand;
-    private String reference;
-    private String color;
-    private String sizes;
-    @Column(nullable = false)
-    private int quantity;
-    private String quality;
-    @Column(nullable = false)
-    private Double price;
+    @OneToMany(mappedBy = "product" , cascade = CascadeType.ALL , fetch = FetchType.EAGER)
+    private Collection<PriceVariationEntity> priceVariations;
     @ManyToOne
     @JoinColumn(name = "article_id")
     private ArticleEntity article;
@@ -51,60 +44,12 @@ public class ProductEntity implements Serializable {
         this.name = name;
     }
 
-    public String getBrand() {
-        return brand;
+    public Collection<PriceVariationEntity> getPriceVariations() {
+        return priceVariations;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
-    }
-
-    public String getReference() {
-        return reference;
-    }
-
-    public void setReference(String reference) {
-        this.reference = reference;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public String getSizes() {
-        return sizes;
-    }
-
-    public void setSizes(String sizes) {
-        this.sizes = sizes;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public String getQuality() {
-        return quality;
-    }
-
-    public void setQuality(String quality) {
-        this.quality = quality;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setPriceVariations(Collection<PriceVariationEntity> priceVariations) {
+        this.priceVariations = priceVariations;
     }
 
     public InventoryEntity getInventory() {
