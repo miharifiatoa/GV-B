@@ -17,8 +17,8 @@ public class ShopEntity implements Serializable {
     private String Address;
     private Long contact;
     private String email;
-    @OneToMany(mappedBy = "shop")
-    private Collection<ShopProductEntity> products;
+    @OneToMany(mappedBy = "shop", fetch = FetchType.EAGER)
+    private Collection<ShopProductEntity> shop_products;
 
     public Long getId() {
         return id;
@@ -60,11 +60,11 @@ public class ShopEntity implements Serializable {
         this.email = email;
     }
 
-    public Collection<ShopProductEntity> getProducts() {
-        return products;
+    public Collection<ShopProductEntity> getShop_products() {
+        return shop_products;
     }
 
-    public void setProducts(Collection<ShopProductEntity> products) {
-        this.products = products;
+    public void setShop_products(Collection<ShopProductEntity> shop_products) {
+        this.shop_products = shop_products;
     }
 }

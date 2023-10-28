@@ -4,31 +4,31 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.Objects;
 
 @Entity
 @Table(name = "articles")
 public class ArticleEntity implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1;
+    @GeneratedValue
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true, nullable = false)
-    private String code;
     @Column(nullable = false , unique = true)
-    private String label;
-    private String family;
-    @OneToMany(mappedBy = "article" ,fetch = FetchType.EAGER)
-    private Collection<ProductEntity> products;
+    private String code;
+    private String size;
+    private String color;
+    private int quantity;
+    private Double price;
+    @ManyToOne
+    @JoinColumn(name = "product_type_id")
+    private ProductTypeEntity productType;
+    @ManyToOne
+    @JoinColumn(name = "arrival_id")
+    private ArrivalEntity arrival;
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getCode() {
@@ -39,27 +39,68 @@ public class ArticleEntity implements Serializable {
         this.code = code;
     }
 
-    public String getLabel() {
-        return label;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setLabel(String label) {
-        this.label = label;
+    public String getSize() {
+        return size;
     }
 
-    public String getFamily() {
-        return family;
+    public void setSize(String size) {
+        this.size = size;
     }
 
-    public void setFamily(String family) {
-        this.family = family;
+    public String getColor() {
+        return color;
     }
 
-    public Collection<ProductEntity> getProducts() {
-        return products;
+    public void setColor(String color) {
+        this.color = color;
     }
 
-    public void setProducts(Collection<ProductEntity> products) {
-        this.products = products;
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public ProductTypeEntity getProductType() {
+        return productType;
+    }
+
+    public void setProductType(ProductTypeEntity productType) {
+        this.productType = productType;
+    }
+
+    public ArrivalEntity getArrival() {
+        return arrival;
+    }
+
+    public void setArrival(ArrivalEntity arrival) {
+        this.arrival = arrival;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ArticleEntity that = (ArticleEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

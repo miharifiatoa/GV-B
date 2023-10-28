@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Collection;
 
 @Entity
 @Table(name = "shop_products")
@@ -19,6 +20,8 @@ public class ShopProductEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private ProductEntity product;
+    @OneToMany(mappedBy = "shopProduct" ,fetch = FetchType.EAGER)
+    private Collection<ShopPriceVariationEntity> priceVariations;
 
     public Long getId() {
         return id;
@@ -42,5 +45,13 @@ public class ShopProductEntity implements Serializable {
 
     public void setProduct(ProductEntity product) {
         this.product = product;
+    }
+
+    public Collection<ShopPriceVariationEntity> getPriceVariations() {
+        return priceVariations;
+    }
+
+    public void setPriceVariations(Collection<ShopPriceVariationEntity> priceVariations) {
+        this.priceVariations = priceVariations;
     }
 }

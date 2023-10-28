@@ -38,11 +38,14 @@
         <mapping class="org.sales_management.entity.UserEntity"/>
         <mapping class="org.sales_management.entity.AccountEntity"/>
         <mapping class="org.sales_management.entity.ShopEntity"/>
-        <mapping class="org.sales_management.entity.ArticleEntity"/>
+        <mapping class="org.sales_management.entity.ProductCategoryEntity"/>
         <mapping class="org.sales_management.entity.InventoryEntity"/>
         <mapping class="org.sales_management.entity.ProductEntity"/>
         <mapping class="org.sales_management.entity.StockHistoryEntity"/>
         <mapping class="org.sales_management.entity.ShopProductEntity"/>
-        <mapping class="org.sales_management.entity.PriceVariationEntity"/>
+        <mapping class="org.sales_management.entity.ArticleEntity"/>
+        <mapping class="org.sales_management.entity.ShopPriceVariationEntity"/>
+        <mapping class="org.sales_management.entity.ArrivalEntity"/>
+        <mapping class="org.sales_management.entity.ProductTypeEntity"/>
     </session-factory>
 </hibernate-configuration>

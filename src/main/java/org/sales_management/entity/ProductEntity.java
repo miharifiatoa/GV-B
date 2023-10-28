@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -16,18 +15,18 @@ public class ProductEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false , unique = true)
     private String name;
-    @OneToMany(mappedBy = "product" , cascade = CascadeType.ALL , fetch = FetchType.EAGER)
-    private Collection<PriceVariationEntity> priceVariations;
     @ManyToOne
-    @JoinColumn(name = "article_id")
-    private ArticleEntity article;
+    @JoinColumn(name = "product_category_id")
+    private ProductCategoryEntity productCategory;
     @ManyToOne
     @JoinColumn(name = "inventory_id")
     private InventoryEntity inventory;
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private Collection<StockHistoryEntity> stockHistories;
+    @OneToMany(mappedBy = "product" , fetch = FetchType.EAGER)
+    private Collection<ProductTypeEntity> productTypes;
     public Long getId() {
         return id;
     }
@@ -44,14 +43,6 @@ public class ProductEntity implements Serializable {
         this.name = name;
     }
 
-    public Collection<PriceVariationEntity> getPriceVariations() {
-        return priceVariations;
-    }
-
-    public void setPriceVariations(Collection<PriceVariationEntity> priceVariations) {
-        this.priceVariations = priceVariations;
-    }
-
     public InventoryEntity getInventory() {
         return inventory;
     }
@@ -60,12 +51,12 @@ public class ProductEntity implements Serializable {
         this.inventory = inventory;
     }
 
-    public ArticleEntity getArticle() {
-        return article;
+    public ProductCategoryEntity getProductCategory() {
+        return productCategory;
     }
 
-    public void setArticle(ArticleEntity article) {
-        this.article = article;
+    public void setProductCategory(ProductCategoryEntity productCategory) {
+        this.productCategory = productCategory;
     }
 
     public Collection<StockHistoryEntity> getStockHistories() {
@@ -76,11 +67,24 @@ public class ProductEntity implements Serializable {
         this.stockHistories = stockHistories;
     }
 
+    public Collection<ProductTypeEntity> getProductTypes() {
+        return productTypes;
+    }
+
+    public void setProductTypes(Collection<ProductTypeEntity> productTypes) {
+        this.productTypes = productTypes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProductEntity product = (ProductEntity) o;
-        return Objects.equals(id, product.id);
+        return Objects.equals(name, product.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }
