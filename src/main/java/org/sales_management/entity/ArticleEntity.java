@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
@@ -26,6 +27,8 @@ public class ArticleEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "arrival_id")
     private ArrivalEntity arrival;
+    @ManyToMany(mappedBy = "articles")
+    private Collection<SaleEntity> sales;
 
     public Long getId() {
         return id;
@@ -97,6 +100,14 @@ public class ArticleEntity implements Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         ArticleEntity that = (ArticleEntity) o;
         return Objects.equals(id, that.id);
+    }
+
+    public Collection<SaleEntity> getSales() {
+        return sales;
+    }
+
+    public void setSales(Collection<SaleEntity> sales) {
+        this.sales = sales;
     }
 
     @Override

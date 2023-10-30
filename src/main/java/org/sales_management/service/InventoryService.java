@@ -4,13 +4,9 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.sales_management.HibernateUtil;
 import org.sales_management.entity.InventoryEntity;
-import org.sales_management.entity.ProductEntity;
-import org.sales_management.entity.ShopEntity;
-import org.sales_management.entity.ShopProductEntity;
 import org.sales_management.interfaces.CrudInterface;
 import org.sales_management.repository.InventoryRepository;
 import org.sales_management.repository.ProductRepository;
-import org.sales_management.repository.ShopProductRepository;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -18,12 +14,10 @@ import java.util.HashSet;
 public class InventoryService implements CrudInterface<InventoryEntity> {
     private final ProductRepository productRepository;
     private final InventoryRepository inventoryRepository;
-    private final ShopProductRepository shopProductRepository;
 
     public InventoryService() {
         this.productRepository = new ProductRepository();
         this.inventoryRepository = new InventoryRepository();
-        this.shopProductRepository = new ShopProductRepository();
     }
 
     @Override

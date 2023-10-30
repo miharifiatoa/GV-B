@@ -15,13 +15,9 @@ public class ArticleService implements CrudInterface<ArticleEntity> {
     private final ProductCategoryRepository productCategoryRepository;
     private final ProductRepository productRepository;
     private final ArticleRepository articleRepository;
-    private final ShopProductRepository shopProductRepository;
-    private final ShopPriceVariationRepository shopPriceVariationRepository;
 
     public ArticleService() {
         this.articleRepository = new ArticleRepository();
-        this.shopProductRepository = new ShopProductRepository();
-        this.shopPriceVariationRepository = new ShopPriceVariationRepository();
         this.productRepository = new ProductRepository();
         this.productCategoryRepository = new ProductCategoryRepository();
     }

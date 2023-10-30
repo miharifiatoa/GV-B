@@ -42,10 +42,10 @@
         <mapping class="org.sales_management.entity.InventoryEntity"/>
         <mapping class="org.sales_management.entity.ProductEntity"/>
         <mapping class="org.sales_management.entity.StockHistoryEntity"/>
-        <mapping class="org.sales_management.entity.ShopProductEntity"/>
         <mapping class="org.sales_management.entity.ArticleEntity"/>
-        <mapping class="org.sales_management.entity.ShopPriceVariationEntity"/>
         <mapping class="org.sales_management.entity.ArrivalEntity"/>
         <mapping class="org.sales_management.entity.ProductTypeEntity"/>
+        <mapping class="org.sales_management.entity.SaleEntity"/>
+        <mapping class="org.sales_management.entity.SaleArticleEntity"/>
     </session-factory>
 </hibernate-configuration>

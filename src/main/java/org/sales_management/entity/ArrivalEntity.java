@@ -18,7 +18,7 @@ public class ArrivalEntity implements Serializable {
     private Long id;
     private String description;
     private int quantity;
-    private LocalDate arrivalDate;
+    private LocalDateTime arrivalDate;
     @OneToMany(mappedBy = "arrival")
     private Collection<ArticleEntity> articles;
 
@@ -46,11 +46,11 @@ public class ArrivalEntity implements Serializable {
         this.quantity = quantity;
     }
 
-    public LocalDate getArrivalDate() {
+    public LocalDateTime getArrivalDate() {
         return arrivalDate;
     }
 
-    public void setArrivalDate(LocalDate arrivalDate) {
+    public void setArrivalDate(LocalDateTime arrivalDate) {
         this.arrivalDate = arrivalDate;
     }
 
