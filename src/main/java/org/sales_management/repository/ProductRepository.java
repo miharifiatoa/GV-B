@@ -50,9 +50,9 @@ public class ProductRepository implements CrudInterface<ProductEntity> {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         return session.createQuery("from ProductEntity",ProductEntity.class).getResultList();
     }
-    public ProductEntity isUniqueValue(String productName) {
+    public ProductEntity getProductByName(String productName) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        String hql = "SELECT e FROM ProductEntity e WHERE e.name = :name";
+        String hql = "SELECT e FROM ProductEntity e WHERE LOWER(e.name) = :name";
         Query<ProductEntity> query = session.createQuery(hql, ProductEntity.class);
         query.setParameter("name", productName);
         List<ProductEntity> results = query.list();

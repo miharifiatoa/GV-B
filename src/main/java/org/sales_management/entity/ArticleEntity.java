@@ -24,15 +24,15 @@ public class ArticleEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "product_type_id")
     private ProductTypeEntity productType;
-    @ManyToOne
-    @JoinColumn(name = "arrival_id")
-    private ArrivalEntity arrival;
-    @ManyToMany(mappedBy = "articles")
-    private Collection<SaleEntity> sales;
+    @OneToMany(mappedBy = "article")
+    private Collection<SaleArticleEntity> saleArticles;
+    @OneToMany(mappedBy = "article")
+    private Collection<ShareArticleEntity> shopArticles;
 
     public Long getId() {
         return id;
     }
+
 
     public String getCode() {
         return code;
@@ -86,12 +86,12 @@ public class ArticleEntity implements Serializable {
         this.productType = productType;
     }
 
-    public ArrivalEntity getArrival() {
-        return arrival;
+    public Collection<ShareArticleEntity> getShopArticles() {
+        return shopArticles;
     }
 
-    public void setArrival(ArrivalEntity arrival) {
-        this.arrival = arrival;
+    public void setShopArticles(Collection<ShareArticleEntity> shopArticles) {
+        this.shopArticles = shopArticles;
     }
 
     @Override
@@ -102,12 +102,12 @@ public class ArticleEntity implements Serializable {
         return Objects.equals(id, that.id);
     }
 
-    public Collection<SaleEntity> getSales() {
-        return sales;
+    public Collection<SaleArticleEntity> getSaleArticles() {
+        return saleArticles;
     }
 
-    public void setSales(Collection<SaleEntity> sales) {
-        this.sales = sales;
+    public void setSaleArticles(Collection<SaleArticleEntity> saleArticles) {
+        this.saleArticles = saleArticles;
     }
 
     @Override

@@ -35,8 +35,12 @@ public class ProductTypeRepository implements CrudInterface<ProductTypeEntity> {
     }
 
     @Override
-    public ProductTypeEntity update(ProductTypeEntity obj) {
-        return null;
+    public ProductTypeEntity update(ProductTypeEntity productType) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        if (productType != null){
+            session.merge(productType);
+        }
+        return productType;
     }
 
     @Override
@@ -46,7 +50,7 @@ public class ProductTypeRepository implements CrudInterface<ProductTypeEntity> {
     }
     public ProductTypeEntity isUniqueValue(String productTypeName) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        String hql = "SELECT e FROM ProductTypeEntity e WHERE e.name = :name";
+        String hql = "SELECT e FROM ProductTypeEntity e WHERE LOWER(e.name) = :name";
         Query<ProductTypeEntity> query = session.createQuery(hql, ProductTypeEntity.class);
         query.setParameter("name", productTypeName);
         List<ProductTypeEntity> results = query.list();

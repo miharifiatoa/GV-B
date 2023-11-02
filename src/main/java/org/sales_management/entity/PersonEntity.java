@@ -17,6 +17,7 @@ public class PersonEntity implements Serializable {
     private String lastname;
     private String firstname;
     private String address;
+    private char gender;
 
     public Long getId() {
         return id;
@@ -48,5 +49,13 @@ public class PersonEntity implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public char getGender() {
+        return gender;
+    }
+
+    public void setGender(char gender) {
+        this.gender = gender;
     }
 }

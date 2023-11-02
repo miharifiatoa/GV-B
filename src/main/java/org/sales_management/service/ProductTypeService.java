@@ -67,8 +67,19 @@ public class ProductTypeService implements CrudInterface<ProductTypeEntity> {
     }
 
     @Override
-    public ProductTypeEntity update(ProductTypeEntity obj) {
-        return null;
+    public ProductTypeEntity update(ProductTypeEntity productType) {
+        Transaction transaction = null;
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            this.productTypeRepository.update(productType);
+            transaction.commit();
+        }catch (Exception e){
+            if (transaction!=null){
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        return productType;
     }
 
     @Override
@@ -102,4 +113,6 @@ public class ProductTypeService implements CrudInterface<ProductTypeEntity> {
         }
         return productType;
     }
+
+
 }

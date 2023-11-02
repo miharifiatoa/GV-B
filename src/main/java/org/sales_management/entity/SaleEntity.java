@@ -14,11 +14,10 @@ public class SaleEntity{
     private String clientName;
     private String description;
     private LocalDateTime saleDate;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "sale_articles",
-            joinColumns = @JoinColumn(name = "sale_id"),
-            inverseJoinColumns = @JoinColumn(name = "article_id"))
-    private Collection<ArticleEntity> articles;
+    @Column(nullable = false)
+    private Boolean isCanceled;
+    @OneToMany(fetch = FetchType.EAGER , mappedBy = "sale" , cascade = CascadeType.ALL)
+    private Collection<SaleArticleEntity> saleArticles;
 
     public Long getId() {
         return id;
@@ -52,11 +51,19 @@ public class SaleEntity{
         this.saleDate = saleDate;
     }
 
-    public Collection<ArticleEntity> getArticles() {
-        return articles;
+    public Boolean getCanceled() {
+        return isCanceled;
     }
 
-    public void setArticles(Collection<ArticleEntity> articles) {
-        this.articles = articles;
+    public void setCanceled(Boolean canceled) {
+        isCanceled = canceled;
+    }
+
+    public Collection<SaleArticleEntity> getSaleArticles() {
+        return saleArticles;
+    }
+
+    public void setSaleArticles(Collection<SaleArticleEntity> saleArticles) {
+        this.saleArticles = saleArticles;
     }
 }

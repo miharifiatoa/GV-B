@@ -47,5 +47,8 @@
         <mapping class="org.sales_management.entity.ProductTypeEntity"/>
         <mapping class="org.sales_management.entity.SaleEntity"/>
         <mapping class="org.sales_management.entity.SaleArticleEntity"/>
+        <mapping class="org.sales_management.entity.ArrivalArticleEntity"/>
+        <mapping class="org.sales_management.entity.ShareArticleEntity"/>
+        <mapping class="org.sales_management.entity.ShareEntity"/>
     </session-factory>
 </hibernate-configuration>

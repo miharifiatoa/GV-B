@@ -17,10 +17,13 @@ public class ArrivalEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String description;
-    private int quantity;
     private LocalDateTime arrivalDate;
     @OneToMany(mappedBy = "arrival")
-    private Collection<ArticleEntity> articles;
+    private Collection<ArrivalArticleEntity> arrivalArticles;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
 
     public Long getId() {
         return id;
@@ -38,13 +41,6 @@ public class ArrivalEntity implements Serializable {
         this.description = description;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
 
     public LocalDateTime getArrivalDate() {
         return arrivalDate;
@@ -54,11 +50,19 @@ public class ArrivalEntity implements Serializable {
         this.arrivalDate = arrivalDate;
     }
 
-    public Collection<ArticleEntity> getArticles() {
-        return articles;
+    public Collection<ArrivalArticleEntity> getArrivalArticles() {
+        return arrivalArticles;
     }
 
-    public void setArticles(Collection<ArticleEntity> articles) {
-        this.articles = articles;
+    public void setArrivalArticles(Collection<ArrivalArticleEntity> arrivalArticles) {
+        this.arrivalArticles = arrivalArticles;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 }

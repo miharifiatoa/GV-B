@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.sales_management.HibernateUtil;
 import org.sales_management.entity.ArticleEntity;
+import org.sales_management.entity.ProductEntity;
 import org.sales_management.entity.ProductTypeEntity;
 import org.sales_management.interfaces.CrudInterface;
 
@@ -12,10 +13,10 @@ import java.util.List;
 
 public class ArticleRepository implements CrudInterface<ArticleEntity> {
     @Override
-    public ArticleEntity create(ArticleEntity priceVariation) {
+    public ArticleEntity create(ArticleEntity article) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.persist(priceVariation);
-        return priceVariation;
+        session.persist(article);
+        return article;
     }
 
     @Override
@@ -33,12 +34,12 @@ public class ArticleRepository implements CrudInterface<ArticleEntity> {
     }
 
     @Override
-    public ArticleEntity update(ArticleEntity priceVariation) {
+    public ArticleEntity update(ArticleEntity article) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        if (priceVariation != null){
-            session.update(priceVariation);
+        if (article != null){
+            session.merge(article);
         }
-        return priceVariation;
+        return article;
     }
 
     @Override
@@ -48,7 +49,7 @@ public class ArticleRepository implements CrudInterface<ArticleEntity> {
     }
     public ArticleEntity isUniqueValue(String code) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        String hql = "SELECT e FROM ArticleEntity e WHERE e.code = :code";
+        String hql = "SELECT e FROM ArticleEntity e WHERE LOWER(e.code) = :code";
         Query<ArticleEntity> query = session.createQuery(hql, ArticleEntity.class);
         query.setParameter("code", code);
         List<ArticleEntity> results = query.list();

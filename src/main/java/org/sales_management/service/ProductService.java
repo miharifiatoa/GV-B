@@ -122,18 +122,19 @@ public class ProductService implements CrudInterface<ProductEntity> {
         }
         return foundProducts;
     }
-    public ProductEntity isUniqueValue(String productName){
+
+    public ProductEntity isProductNameExists(String productName) {
         Transaction transaction = null;
         ProductEntity product = new ProductEntity();
         try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            product = productRepository.isUniqueValue(productName);
+            product = this.productRepository.getProductByName(productName);
             transaction.commit();
-        }
-        catch (Exception e){
+        }catch (Exception e){
             if (transaction!=null){
                 transaction.rollback();
             }
+            e.printStackTrace();
         }
         return product;
     }

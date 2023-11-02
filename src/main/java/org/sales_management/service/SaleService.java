@@ -55,8 +55,19 @@ public class SaleService implements CrudInterface<SaleEntity> {
     }
 
     @Override
-    public SaleEntity update(SaleEntity obj) {
-        return null;
+    public SaleEntity update(SaleEntity sale) {
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            this.saleRepository.update(sale);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        return sale;
     }
 
     @Override
@@ -99,6 +110,7 @@ public class SaleService implements CrudInterface<SaleEntity> {
                 saleArticle.setSale(sale);
                 saleArticle.setArticle(article);
                 saleArticle.setQuantity(article.getQuantity());
+                saleArticle.setSaleDate(LocalDateTime.now());
                 session.persist(saleArticle);
                 ArticleEntity articleEntity = articleRepository.getById(article.getId());
                 articleEntity.setQuantity(articleEntity.getQuantity() - article.getQuantity());
@@ -107,6 +119,27 @@ public class SaleService implements CrudInterface<SaleEntity> {
             session.persist(sale);
             transaction.commit();
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        return sale;
+    }
+    public SaleEntity toCancelSale(SaleEntity sale){
+        Transaction transaction = null;
+        try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            sale.setCanceled(true);
+            this.saleRepository.update(sale);
+            for (SaleArticleEntity saleArticle : sale.getSaleArticles()){
+                ArticleEntity article = saleArticle.getArticle();
+                article.setQuantity(article.getQuantity() + saleArticle.getQuantity());
+                articleRepository.update(saleArticle.getArticle());
+            }
+            transaction.commit();
+        }
+        catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
             }

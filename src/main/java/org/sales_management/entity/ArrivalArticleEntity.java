@@ -5,21 +5,19 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "sale_articles")
-public class SaleArticleEntity {
+@Table(name = "arrival_articles")
+public class ArrivalArticleEntity {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
     private int quantity;
-    private LocalDateTime saleDate;
+    private LocalDateTime arrivalDate;
     @ManyToOne
-    @JoinColumn(name = "sale_id")
-    private SaleEntity sale;
+    @JoinColumn(name = "arrival_id")
+    private ArrivalEntity arrival;
     @ManyToOne
     @JoinColumn(name = "article_id")
     private ArticleEntity article;
-
 
     public Long getId() {
         return id;
@@ -37,20 +35,20 @@ public class SaleArticleEntity {
         this.quantity = quantity;
     }
 
-    public LocalDateTime getSaleDate() {
-        return saleDate;
+    public LocalDateTime getArrivalDate() {
+        return arrivalDate;
     }
 
-    public void setSaleDate(LocalDateTime saleDate) {
-        this.saleDate = saleDate;
+    public void setArrivalDate(LocalDateTime arrivalDate) {
+        this.arrivalDate = arrivalDate;
     }
 
-    public SaleEntity getSale() {
-        return sale;
+    public ArrivalEntity getArrival() {
+        return arrival;
     }
 
-    public void setSale(SaleEntity sale) {
-        this.sale = sale;
+    public void setArrival(ArrivalEntity arrival) {
+        this.arrival = arrival;
     }
 
     public ArticleEntity getArticle() {
@@ -60,4 +58,5 @@ public class SaleArticleEntity {
     public void setArticle(ArticleEntity article) {
         this.article = article;
     }
+
 }

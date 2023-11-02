@@ -3,6 +3,7 @@ package org.sales_management.repository;
 import org.hibernate.Session;
 import org.sales_management.HibernateUtil;
 import org.sales_management.entity.ArrivalEntity;
+import org.sales_management.entity.ArticleEntity;
 import org.sales_management.interfaces.CrudInterface;
 
 import java.util.Collection;
@@ -32,6 +33,7 @@ public class ArrivalRepository implements CrudInterface<ArrivalEntity> {
 
     @Override
     public Collection<ArrivalEntity> getAll() {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        return session.createQuery("from ArrivalEntity", ArrivalEntity.class).getResultList();
     }
 }

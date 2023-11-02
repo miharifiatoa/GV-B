@@ -10,4 +10,20 @@ public class ClientEntity {
     private Long id;
     @OneToOne
     private PersonEntity person;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public PersonEntity getPerson() {
+        return person;
+    }
+
+    public void setPerson(PersonEntity person) {
+        this.person = person;
+    }
 }
