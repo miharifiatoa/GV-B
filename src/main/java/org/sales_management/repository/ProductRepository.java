@@ -2,13 +2,10 @@ package org.sales_management.repository;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import org.sales_management.HibernateUtil;
-import org.sales_management.entity.ArticleEntity;
+import org.sales_management.session.HibernateUtil;
 import org.sales_management.entity.ProductEntity;
-import org.sales_management.entity.StockHistoryEntity;
 import org.sales_management.interfaces.CrudInterface;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 

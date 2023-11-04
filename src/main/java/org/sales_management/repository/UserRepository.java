@@ -1,7 +1,9 @@
 package org.sales_management.repository;
 
 import org.hibernate.Session;
-import org.sales_management.HibernateUtil;
+import org.hibernate.query.Query;
+import org.sales_management.session.HibernateUtil;
+import org.sales_management.entity.AccountEntity;
 import org.sales_management.entity.UserEntity;
 import org.sales_management.interfaces.CrudInterface;
 
@@ -33,5 +35,11 @@ public class UserRepository implements CrudInterface<UserEntity> {
     @Override
     public Collection<UserEntity> getAll() {
         return null;
+    }
+    public AccountEntity getAccountByUserName(String username){
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Query<AccountEntity> query = session.createQuery("SELECT a FROM AccountEntity a WHERE a.username = :username", AccountEntity.class);
+        query.setParameter("username", username);
+        return query.getSingleResult();
     }
 }

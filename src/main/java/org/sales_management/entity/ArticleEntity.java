@@ -27,7 +27,9 @@ public class ArticleEntity implements Serializable {
     @OneToMany(mappedBy = "article")
     private Collection<SaleArticleEntity> saleArticles;
     @OneToMany(mappedBy = "article")
-    private Collection<ShareArticleEntity> shopArticles;
+    private Collection<ShareArticleEntity> shareArticles;
+    @OneToMany(mappedBy = "article")
+    private Collection<ArrivalArticleEntity> arrivalArticles;
 
     public Long getId() {
         return id;
@@ -86,12 +88,12 @@ public class ArticleEntity implements Serializable {
         this.productType = productType;
     }
 
-    public Collection<ShareArticleEntity> getShopArticles() {
-        return shopArticles;
+    public Collection<ShareArticleEntity> getShareArticles() {
+        return shareArticles;
     }
 
-    public void setShopArticles(Collection<ShareArticleEntity> shopArticles) {
-        this.shopArticles = shopArticles;
+    public void setShareArticles(Collection<ShareArticleEntity> shareArticles) {
+        this.shareArticles = shareArticles;
     }
 
     @Override
@@ -108,6 +110,14 @@ public class ArticleEntity implements Serializable {
 
     public void setSaleArticles(Collection<SaleArticleEntity> saleArticles) {
         this.saleArticles = saleArticles;
+    }
+
+    public Collection<ArrivalArticleEntity> getArrivalArticles() {
+        return arrivalArticles;
+    }
+
+    public void setArrivalArticles(Collection<ArrivalArticleEntity> arrivalArticles) {
+        this.arrivalArticles = arrivalArticles;
     }
 
     @Override

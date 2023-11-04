@@ -2,8 +2,7 @@ package org.sales_management.repository;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import org.sales_management.HibernateUtil;
-import org.sales_management.entity.ProductEntity;
+import org.sales_management.session.HibernateUtil;
 import org.sales_management.entity.ProductTypeEntity;
 import org.sales_management.interfaces.CrudInterface;
 

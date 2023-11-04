@@ -1,9 +1,8 @@
 package org.sales_management.repository;
 
 import org.hibernate.Session;
-import org.sales_management.HibernateUtil;
+import org.sales_management.session.HibernateUtil;
 import org.sales_management.entity.ArrivalEntity;
-import org.sales_management.entity.ArticleEntity;
 import org.sales_management.interfaces.CrudInterface;
 
 import java.util.Collection;

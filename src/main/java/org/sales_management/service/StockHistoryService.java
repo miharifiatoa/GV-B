@@ -2,7 +2,7 @@ package org.sales_management.service;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.sales_management.HibernateUtil;
+import org.sales_management.session.HibernateUtil;
 import org.sales_management.entity.StockHistoryEntity;
 import org.sales_management.interfaces.CrudInterface;
 import org.sales_management.repository.StockHistoryRepository;

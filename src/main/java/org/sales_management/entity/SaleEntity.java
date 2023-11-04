@@ -16,6 +16,9 @@ public class SaleEntity{
     private LocalDateTime saleDate;
     @Column(nullable = false)
     private Boolean isCanceled;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private UserEntity user;
     @OneToMany(fetch = FetchType.EAGER , mappedBy = "sale" , cascade = CascadeType.ALL)
     private Collection<SaleArticleEntity> saleArticles;
 
@@ -57,6 +60,14 @@ public class SaleEntity{
 
     public void setCanceled(Boolean canceled) {
         isCanceled = canceled;
+    }
+
+    public UserEntity getUser() {
+        return user;
+    }
+
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     public Collection<SaleArticleEntity> getSaleArticles() {

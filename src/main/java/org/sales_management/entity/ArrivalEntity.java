@@ -18,7 +18,8 @@ public class ArrivalEntity implements Serializable {
     private Long id;
     private String description;
     private LocalDateTime arrivalDate;
-    @OneToMany(mappedBy = "arrival")
+    private boolean isCanceled;
+    @OneToMany(mappedBy = "arrival" , fetch = FetchType.EAGER)
     private Collection<ArrivalArticleEntity> arrivalArticles;
 
     @ManyToOne
@@ -48,6 +49,14 @@ public class ArrivalEntity implements Serializable {
 
     public void setArrivalDate(LocalDateTime arrivalDate) {
         this.arrivalDate = arrivalDate;
+    }
+
+    public boolean isCanceled() {
+        return isCanceled;
+    }
+
+    public void setCanceled(boolean canceled) {
+        isCanceled = canceled;
     }
 
     public Collection<ArrivalArticleEntity> getArrivalArticles() {

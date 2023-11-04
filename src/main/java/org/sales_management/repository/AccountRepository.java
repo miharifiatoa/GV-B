@@ -1,9 +1,8 @@
 package org.sales_management.repository;
 
-import jakarta.persistence.EntityManager;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import org.sales_management.HibernateUtil;
+import org.sales_management.session.HibernateUtil;
 import org.sales_management.entity.AccountEntity;
 import org.sales_management.interfaces.CrudInterface;
 

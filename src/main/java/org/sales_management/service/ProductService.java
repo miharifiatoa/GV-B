@@ -3,14 +3,12 @@ package org.sales_management.service;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import org.sales_management.HibernateUtil;
+import org.sales_management.session.HibernateUtil;
 import org.sales_management.entity.ProductEntity;
-import org.sales_management.entity.StockHistoryEntity;
 import org.sales_management.interfaces.CrudInterface;
 import org.sales_management.repository.ProductRepository;
 import org.sales_management.repository.StockHistoryRepository;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashSet;
 

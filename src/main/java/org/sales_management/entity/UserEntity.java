@@ -13,13 +13,15 @@ public class UserEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
-    @JoinColumn(name = "person_id")
-    private PersonEntity person;
     private String role;
     private Long cin;
     private Long number;
     private String email;
+    @OneToOne
+    @JoinColumn(name = "person_id")
+    private PersonEntity person;
+    @OneToOne(mappedBy = "user")
+    private AccountEntity account;
 
     public Long getId() {
         return id;
@@ -67,5 +69,13 @@ public class UserEntity implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public AccountEntity getAccount() {
+        return account;
+    }
+
+    public void setAccount(AccountEntity account) {
+        this.account = account;
     }
 }

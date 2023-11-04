@@ -1,4 +1,4 @@
-package org.sales_management;
+package org.sales_management.session;
 
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;

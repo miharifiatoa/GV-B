@@ -13,7 +13,8 @@ public class ShareEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime shareDate;
-    @OneToMany(mappedBy = "share")
+    private boolean isCanceled;
+    @OneToMany(mappedBy = "share" , fetch = FetchType.EAGER)
     private Collection<ShareArticleEntity> shareArticles;
     @ManyToOne
     @JoinColumn(name = "shop_id")
@@ -36,6 +37,14 @@ public class ShareEntity {
 
     public void setShareDate(LocalDateTime shareDate) {
         this.shareDate = shareDate;
+    }
+
+    public boolean isCanceled() {
+        return isCanceled;
+    }
+
+    public void setCanceled(boolean canceled) {
+        isCanceled = canceled;
     }
 
     public Collection<ShareArticleEntity> getShareArticles() {
