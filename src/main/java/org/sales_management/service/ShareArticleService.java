@@ -1,9 +1,12 @@
 package org.sales_management.service;
 
+import org.sales_management.entity.ArticleEntity;
 import org.sales_management.entity.ShareArticleEntity;
 import org.sales_management.interfaces.CrudInterface;
 
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
 
 public class ShareArticleService implements CrudInterface<ShareArticleEntity> {
     @Override
@@ -29,5 +32,15 @@ public class ShareArticleService implements CrudInterface<ShareArticleEntity> {
     @Override
     public Collection<ShareArticleEntity> getAll() {
         return null;
+    }
+    public Collection<ShareArticleEntity> getSharesArticleInArticleByDate(ArticleEntity article, LocalDate date) {
+        Collection<ShareArticleEntity> matchingShareArticles = new HashSet<>();
+        for (ShareArticleEntity shareArticle : article.getShareArticles()) {
+            LocalDate shareDate = shareArticle.getShareDate().toLocalDate();
+            if (shareDate.equals(date)) {
+                matchingShareArticles.add(shareArticle);
+            }
+        }
+        return matchingShareArticles;
     }
 }

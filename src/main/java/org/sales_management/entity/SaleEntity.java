@@ -2,16 +2,17 @@ package org.sales_management.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 
 @Entity
 @Table(name = "sales")
-public class SaleEntity{
+public class SaleEntity implements Serializable {
+    private static final Long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     private Long id;
-    private String clientName;
     private String description;
     private LocalDateTime saleDate;
     @Column(nullable = false)
@@ -21,21 +22,17 @@ public class SaleEntity{
     private UserEntity user;
     @OneToMany(fetch = FetchType.EAGER , mappedBy = "sale" , cascade = CascadeType.ALL)
     private Collection<SaleArticleEntity> saleArticles;
-
+    @OneToMany(mappedBy = "sale")
+    private Collection<PaymentEntity> payments;
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private ClientEntity client;
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getClientName() {
-        return clientName;
-    }
-
-    public void setClientName(String clientName) {
-        this.clientName = clientName;
     }
 
     public String getDescription() {
@@ -76,5 +73,21 @@ public class SaleEntity{
 
     public void setSaleArticles(Collection<SaleArticleEntity> saleArticles) {
         this.saleArticles = saleArticles;
+    }
+
+    public Collection<PaymentEntity> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(Collection<PaymentEntity> payments) {
+        this.payments = payments;
+    }
+
+    public ClientEntity getClient() {
+        return client;
+    }
+
+    public void setClient(ClientEntity client) {
+        this.client = client;
     }
 }

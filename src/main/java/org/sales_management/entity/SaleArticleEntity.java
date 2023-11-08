@@ -2,11 +2,13 @@ package org.sales_management.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "sale_articles")
-public class SaleArticleEntity {
+public class SaleArticleEntity implements Serializable {
+    private static final Long serialVersionUID = 1L;
     @Id
     @GeneratedValue
     private Long id;
@@ -19,7 +21,8 @@ public class SaleArticleEntity {
     @ManyToOne
     @JoinColumn(name = "article_id")
     private ArticleEntity article;
-
+    @Column(nullable = false)
+    private boolean isCanceled;
 
     public Long getId() {
         return id;
@@ -51,6 +54,14 @@ public class SaleArticleEntity {
 
     public void setSale(SaleEntity sale) {
         this.sale = sale;
+    }
+
+    public boolean isCanceled() {
+        return isCanceled;
+    }
+
+    public void setCanceled(boolean canceled) {
+        isCanceled = canceled;
     }
 
     public ArticleEntity getArticle() {

@@ -50,5 +50,8 @@
         <mapping class="org.sales_management.entity.ArrivalArticleEntity"/>
         <mapping class="org.sales_management.entity.ShareArticleEntity"/>
         <mapping class="org.sales_management.entity.ShareEntity"/>
+        <mapping class="org.sales_management.entity.ClientEntity"/>
+        <mapping class="org.sales_management.entity.PaymentEntity"/>
+        <mapping class="org.sales_management.entity.PaymentModeEntity"/>
     </session-factory>
 </hibernate-configuration>

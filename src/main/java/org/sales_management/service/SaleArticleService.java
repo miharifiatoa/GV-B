@@ -2,12 +2,16 @@ package org.sales_management.service;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.sales_management.entity.ArticleEntity;
+import org.sales_management.entity.ShareArticleEntity;
 import org.sales_management.session.HibernateUtil;
 import org.sales_management.entity.SaleArticleEntity;
 import org.sales_management.interfaces.CrudInterface;
 import org.sales_management.repository.SaleArticleRepository;
 
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
 
 public class SaleArticleService implements CrudInterface<SaleArticleEntity> {
     private final SaleArticleRepository saleArticleRepository;
@@ -50,5 +54,15 @@ public class SaleArticleService implements CrudInterface<SaleArticleEntity> {
     @Override
     public Collection<SaleArticleEntity> getAll() {
         return null;
+    }
+    public Collection<SaleArticleEntity> getSalesArticleInArticleByDate(ArticleEntity article, LocalDate date) {
+        Collection<SaleArticleEntity> matchingSaleArticles = new HashSet<>();
+        for (SaleArticleEntity saleArticle : article.getSaleArticles()) {
+            LocalDate saleDate = saleArticle.getSaleDate().toLocalDate();
+            if (saleDate.equals(date)) {
+                matchingSaleArticles.add(saleArticle);
+            }
+        }
+        return matchingSaleArticles;
     }
 }

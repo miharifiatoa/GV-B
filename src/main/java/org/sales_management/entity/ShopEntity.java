@@ -8,6 +8,7 @@ import java.util.Collection;
 @Entity
 @Table(name = "shops")
 public class ShopEntity implements Serializable {
+    private static final Long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

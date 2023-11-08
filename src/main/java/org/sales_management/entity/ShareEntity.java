@@ -2,13 +2,15 @@ package org.sales_management.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 
 @Entity
 @Table(name = "shares")
-public class ShareEntity {
+public class ShareEntity implements Serializable {
+    private static final Long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

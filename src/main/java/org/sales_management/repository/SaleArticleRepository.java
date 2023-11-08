@@ -1,10 +1,14 @@
 package org.sales_management.repository;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
+import org.sales_management.entity.SaleEntity;
 import org.sales_management.session.HibernateUtil;
 import org.sales_management.entity.SaleArticleEntity;
 import org.sales_management.interfaces.CrudInterface;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 
 public class SaleArticleRepository implements CrudInterface<SaleArticleEntity> {
@@ -33,5 +37,14 @@ public class SaleArticleRepository implements CrudInterface<SaleArticleEntity> {
     @Override
     public Collection<SaleArticleEntity> getAll() {
         return null;
+    }
+    public Collection<SaleArticleEntity> getSaleArticlesByDate(LocalDate date) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.atTime(23, 59, 59);
+        Query<SaleArticleEntity> query = session.createQuery("from SaleArticleEntity where saleDate >= :startOfDay and saleDate <= :endOfDay", SaleArticleEntity.class);
+        query.setParameter("startOfDay", startOfDay);
+        query.setParameter("endOfDay", endOfDay);
+        return query.getResultList();
     }
 }

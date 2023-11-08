@@ -2,14 +2,13 @@ package org.sales_management.service;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.sales_management.entity.*;
 import org.sales_management.session.HibernateUtil;
-import org.sales_management.entity.ArticleEntity;
-import org.sales_management.entity.SaleArticleEntity;
-import org.sales_management.entity.SaleEntity;
 import org.sales_management.interfaces.CrudInterface;
 import org.sales_management.repository.ArticleRepository;
 import org.sales_management.repository.SaleArticleRepository;
 import org.sales_management.repository.SaleRepository;
+import org.sales_management.session.SessionManager;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -101,6 +100,21 @@ public class SaleService implements CrudInterface<SaleEntity> {
         }
         return sales;
     }
+    public Collection<SaleEntity> getAllSalesByDate(LocalDate date) {
+        Transaction transaction = null;
+        Collection<SaleEntity> sales = new HashSet<>();
+        try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            sales = this.saleRepository.getAllSalesByDate(date);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        return sales;
+    }
     public SaleEntity toSaleArticles(SaleEntity sale, Collection<ArticleEntity> articlesToSale) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
@@ -111,6 +125,7 @@ public class SaleService implements CrudInterface<SaleEntity> {
                 saleArticle.setArticle(article);
                 saleArticle.setQuantity(article.getQuantity());
                 saleArticle.setSaleDate(LocalDateTime.now());
+                saleArticle.setCanceled(false);
                 session.persist(saleArticle);
                 ArticleEntity articleEntity = articleRepository.getById(article.getId());
                 articleEntity.setQuantity(articleEntity.getQuantity() - article.getQuantity());
@@ -131,11 +146,14 @@ public class SaleService implements CrudInterface<SaleEntity> {
         try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
             sale.setCanceled(true);
-            this.saleRepository.update(sale);
+            sale.setUser(SessionManager.getSession().getCurrentUser());
+            session.merge(sale);
             for (SaleArticleEntity saleArticle : sale.getSaleArticles()){
+                saleArticle.setCanceled(true);
                 ArticleEntity article = saleArticle.getArticle();
                 article.setQuantity(article.getQuantity() + saleArticle.getQuantity());
-                articleRepository.update(saleArticle.getArticle());
+                session.merge(saleArticle);
+                session.merge(saleArticle.getArticle());
             }
             transaction.commit();
         }

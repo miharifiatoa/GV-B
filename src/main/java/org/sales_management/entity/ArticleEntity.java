@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -20,15 +21,18 @@ public class ArticleEntity implements Serializable {
     private String size;
     private String color;
     private int quantity;
+    @Column(nullable = false)
     private Double price;
+    @Column(nullable = false)
+    private LocalDateTime createdDate;
     @ManyToOne
     @JoinColumn(name = "product_type_id")
     private ProductTypeEntity productType;
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "article" , fetch = FetchType.EAGER)
     private Collection<SaleArticleEntity> saleArticles;
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "article" , fetch = FetchType.EAGER)
     private Collection<ShareArticleEntity> shareArticles;
-    @OneToMany(mappedBy = "article")
+    @OneToMany(mappedBy = "article" , fetch = FetchType.EAGER)
     private Collection<ArrivalArticleEntity> arrivalArticles;
 
     public Long getId() {
@@ -78,6 +82,14 @@ public class ArticleEntity implements Serializable {
 
     public void setPrice(Double price) {
         this.price = price;
+    }
+
+    public LocalDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(LocalDateTime createdDate) {
+        this.createdDate = createdDate;
     }
 
     public ProductTypeEntity getProductType() {

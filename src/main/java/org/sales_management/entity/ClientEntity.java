@@ -2,14 +2,19 @@ package org.sales_management.entity;
 
 import jakarta.persistence.*;
 
+import java.util.Collection;
+
 @Entity
 @Table(name = "clients")
 public class ClientEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
-    private PersonEntity person;
+    private Long telephone;
+    private String name;
+    @OneToMany(mappedBy = "client")
+    private Collection<SaleEntity> sales;
+
 
     public Long getId() {
         return id;
@@ -19,11 +24,27 @@ public class ClientEntity {
         this.id = id;
     }
 
-    public PersonEntity getPerson() {
-        return person;
+    public Long getTelephone() {
+        return telephone;
     }
 
-    public void setPerson(PersonEntity person) {
-        this.person = person;
+    public void setTelephone(Long telephone) {
+        this.telephone = telephone;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Collection<SaleEntity> getSales() {
+        return sales;
+    }
+
+    public void setSales(Collection<SaleEntity> sales) {
+        this.sales = sales;
     }
 }

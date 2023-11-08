@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Collection;
 
 @Entity
 @Table(name = "users")
@@ -22,7 +23,12 @@ public class UserEntity implements Serializable {
     private PersonEntity person;
     @OneToOne(mappedBy = "user")
     private AccountEntity account;
-
+    @OneToMany(mappedBy = "user" , fetch = FetchType.EAGER)
+    private Collection<ArrivalEntity> arrivals;
+    @OneToMany(mappedBy = "user" , fetch = FetchType.EAGER)
+    private Collection<SaleEntity> sales;
+    @OneToMany(mappedBy = "user" , fetch = FetchType.EAGER)
+    private Collection<ShareEntity> shares;
     public Long getId() {
         return id;
     }
@@ -77,5 +83,29 @@ public class UserEntity implements Serializable {
 
     public void setAccount(AccountEntity account) {
         this.account = account;
+    }
+
+    public Collection<ArrivalEntity> getArrivals() {
+        return arrivals;
+    }
+
+    public void setArrivals(Collection<ArrivalEntity> arrivals) {
+        this.arrivals = arrivals;
+    }
+
+    public Collection<SaleEntity> getSales() {
+        return sales;
+    }
+
+    public void setSales(Collection<SaleEntity> sales) {
+        this.sales = sales;
+    }
+
+    public Collection<ShareEntity> getShares() {
+        return shares;
+    }
+
+    public void setShares(Collection<ShareEntity> shares) {
+        this.shares = shares;
     }
 }
