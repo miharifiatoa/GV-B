@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Collection;
 
 @Entity
 @Table(name = "payment_modes")
@@ -14,6 +15,8 @@ public class PaymentModeEntity implements Serializable {
     @GeneratedValue
     private Long id;
     private String description;
+    @OneToMany(mappedBy = "paymentMode")
+    private Collection<PaymentEntity> payments;
     public Long getId() {
         return id;
     }
@@ -30,4 +33,11 @@ public class PaymentModeEntity implements Serializable {
         this.description = description;
     }
 
+    public Collection<PaymentEntity> getPayments() {
+        return payments;
+    }
+
+    public void setPayments(Collection<PaymentEntity> payments) {
+        this.payments = payments;
+    }
 }

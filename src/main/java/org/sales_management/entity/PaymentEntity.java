@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 @Entity
 @Table(name = "payments")
@@ -17,7 +18,7 @@ public class PaymentEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "sale_id")
     private SaleEntity sale;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "payment_mode_id")
     private PaymentModeEntity paymentMode;
 

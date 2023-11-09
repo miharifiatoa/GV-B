@@ -25,7 +25,19 @@ public class PaymentModeService implements CrudInterface<PaymentModeEntity> {
 
     @Override
     public PaymentModeEntity getById(Long id) {
-        return null;
+        Transaction transaction = null;
+        PaymentModeEntity paymentMode = new PaymentModeEntity();
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            paymentMode = this.paymentModeRepository.getById(id);
+            transaction.commit();
+        }catch (Exception e){
+            if (transaction!=null){
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        return paymentMode;
     }
 
     @Override

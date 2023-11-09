@@ -15,7 +15,8 @@ public class PaymentModeRepository implements CrudInterface<PaymentModeEntity> {
 
     @Override
     public PaymentModeEntity getById(Long id) {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        return session.get(PaymentModeEntity.class , id);
     }
 
     @Override
@@ -31,6 +32,6 @@ public class PaymentModeRepository implements CrudInterface<PaymentModeEntity> {
     @Override
     public Collection<PaymentModeEntity> getAll() {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        return session.createQuery("from PaymentModeEntity" , PaymentModeEntity.class).getResultList();
+        return session.createQuery("from PaymentModeEntity order by id" , PaymentModeEntity.class).getResultList();
     }
 }

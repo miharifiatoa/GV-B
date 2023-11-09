@@ -22,7 +22,7 @@ public class SaleEntity implements Serializable {
     private UserEntity user;
     @OneToMany(fetch = FetchType.EAGER , mappedBy = "sale" , cascade = CascadeType.ALL)
     private Collection<SaleArticleEntity> saleArticles;
-    @OneToMany(mappedBy = "sale")
+    @OneToMany(mappedBy = "sale" , fetch = FetchType.EAGER)
     private Collection<PaymentEntity> payments;
     @ManyToOne
     @JoinColumn(name = "client_id")

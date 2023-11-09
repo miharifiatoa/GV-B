@@ -2,15 +2,17 @@ package org.sales_management.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
 @Table(name = "clients")
-public class ClientEntity {
+public class ClientEntity implements Serializable {
+    private static final Long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long telephone;
+    private String telephone;
     private String name;
     @OneToMany(mappedBy = "client")
     private Collection<SaleEntity> sales;
@@ -24,11 +26,11 @@ public class ClientEntity {
         this.id = id;
     }
 
-    public Long getTelephone() {
+    public String getTelephone() {
         return telephone;
     }
 
-    public void setTelephone(Long telephone) {
+    public void setTelephone(String telephone) {
         this.telephone = telephone;
     }
 

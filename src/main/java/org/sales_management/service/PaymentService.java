@@ -1,14 +1,35 @@
 package org.sales_management.service;
 
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.sales_management.entity.PaymentEntity;
 import org.sales_management.interfaces.CrudInterface;
+import org.sales_management.repository.PaymentRepository;
+import org.sales_management.session.HibernateUtil;
 
 import java.util.Collection;
 
 public class PaymentService implements CrudInterface<PaymentEntity> {
+    private final PaymentRepository paymentRepository;
+
+    public PaymentService() {
+        this.paymentRepository = new PaymentRepository();
+    }
+
     @Override
     public PaymentEntity create(PaymentEntity payment) {
-        return null;
+        Transaction transaction = null;
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            this.paymentRepository.create(payment);
+            transaction.commit();
+        }
+        catch (Exception e){
+            if (transaction!=null){
+                transaction.rollback();
+            }
+        }
+        return payment;
     }
 
     @Override

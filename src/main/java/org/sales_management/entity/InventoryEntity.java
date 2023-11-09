@@ -16,6 +16,7 @@ public class InventoryEntity implements Serializable {
     private Long id;
     @Column(unique = true)
     private Integer code;
+
     @OneToMany(mappedBy = "inventory")
     private Collection<ProductEntity> products;
 
