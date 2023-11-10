@@ -46,7 +46,7 @@ public class SaleRepository implements CrudInterface<SaleEntity> {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         LocalDateTime startOfDay = date.atStartOfDay();
         LocalDateTime endOfDay = date.atTime(23, 59, 59);
-        Query<SaleEntity> query = session.createQuery("from SaleEntity where saleDate >= :startOfDay and saleDate <= :endOfDay and isCanceled = false", SaleEntity.class);
+        Query<SaleEntity> query = session.createQuery("from SaleEntity where saleDate >= :startOfDay and saleDate <= :endOfDay and isCanceled = false ", SaleEntity.class);
         query.setParameter("startOfDay", startOfDay);
         query.setParameter("endOfDay", endOfDay);
         return query.getResultList();

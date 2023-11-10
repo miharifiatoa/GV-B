@@ -17,6 +17,8 @@ public class SaleEntity implements Serializable {
     private LocalDateTime saleDate;
     @Column(nullable = false)
     private Boolean isCanceled;
+    @Column(nullable = false)
+    private Boolean isPayed;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
@@ -89,5 +91,13 @@ public class SaleEntity implements Serializable {
 
     public void setClient(ClientEntity client) {
         this.client = client;
+    }
+
+    public Boolean getPayed() {
+        return isPayed;
+    }
+
+    public void setPayed(Boolean payed) {
+        isPayed = payed;
     }
 }
