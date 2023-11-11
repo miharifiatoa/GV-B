@@ -45,7 +45,7 @@ public class ProductTypeRepository implements CrudInterface<ProductTypeEntity> {
     @Override
     public Collection<ProductTypeEntity> getAll() {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        return session.createQuery("from ProductEntity",ProductTypeEntity.class).getResultList();
+        return session.createQuery("from ProductTypeEntity",ProductTypeEntity.class).getResultList();
     }
     public ProductTypeEntity isUniqueValue(String productTypeName) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();

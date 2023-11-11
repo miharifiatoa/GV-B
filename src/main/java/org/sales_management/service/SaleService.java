@@ -3,6 +3,7 @@ package org.sales_management.service;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.sales_management.entity.*;
+import org.sales_management.repository.PaymentRepository;
 import org.sales_management.session.HibernateUtil;
 import org.sales_management.interfaces.CrudInterface;
 import org.sales_management.repository.ArticleRepository;
@@ -17,11 +18,11 @@ import java.util.HashSet;
 
 public class SaleService implements CrudInterface<SaleEntity> {
     private final SaleRepository saleRepository;
-    private final SaleArticleRepository saleArticleRepository;
+    private final PaymentRepository paymentRepository;
     private final ArticleRepository articleRepository;
 
     public SaleService() {
-        this.saleArticleRepository = new SaleArticleRepository();
+        this.paymentRepository = new PaymentRepository();
         this.saleRepository = new SaleRepository();
         this.articleRepository = new ArticleRepository();
     }
@@ -154,6 +155,10 @@ public class SaleService implements CrudInterface<SaleEntity> {
                 article.setQuantity(article.getQuantity() + saleArticle.getQuantity());
                 session.merge(saleArticle);
                 session.merge(saleArticle.getArticle());
+            }
+            for (PaymentEntity payment : sale.getPayments()){
+                PaymentEntity paymentEntity = paymentRepository.getById(payment.getId());
+                session.remove(paymentEntity);
             }
             transaction.commit();
         }

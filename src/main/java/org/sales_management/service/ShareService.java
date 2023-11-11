@@ -98,6 +98,7 @@ public class ShareService implements CrudInterface<ShareEntity> {
                 article.setQuantity(article.getQuantity() + shareArticle.getQuantity());
                 session.merge(shareArticle);
                 session.merge(shareArticle.getArticle());
+
             }
             transaction.commit();
         }

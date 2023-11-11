@@ -17,7 +17,8 @@ public class PaymentRepository implements CrudInterface<PaymentEntity> {
 
     @Override
     public PaymentEntity getById(Long id) {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        return session.get(PaymentEntity.class,id);
     }
 
     @Override

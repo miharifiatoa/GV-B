@@ -19,6 +19,7 @@ public class SaleEntity implements Serializable {
     private Boolean isCanceled;
     @Column(nullable = false)
     private Boolean isPayed;
+    private Double delivery;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
@@ -99,5 +100,13 @@ public class SaleEntity implements Serializable {
 
     public void setPayed(Boolean payed) {
         isPayed = payed;
+    }
+
+    public Double getDelivery() {
+        return delivery;
+    }
+
+    public void setDelivery(Double delivery) {
+        this.delivery = delivery;
     }
 }

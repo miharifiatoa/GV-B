@@ -17,6 +17,7 @@ public class PersonEntity implements Serializable {
     private String lastname;
     private String firstname;
     private String address;
+    @Column(nullable = false)
     private char gender;
 
     public Long getId() {
