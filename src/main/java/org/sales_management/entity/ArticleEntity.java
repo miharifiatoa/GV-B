@@ -34,7 +34,8 @@ public class ArticleEntity implements Serializable {
     private Collection<ShareArticleEntity> shareArticles;
     @OneToMany(mappedBy = "article" , fetch = FetchType.EAGER)
     private Collection<ArrivalArticleEntity> arrivalArticles;
-
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
+    private Collection<StockHistoryEntity> stockHistories;
     public Long getId() {
         return id;
     }
@@ -108,14 +109,6 @@ public class ArticleEntity implements Serializable {
         this.shareArticles = shareArticles;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ArticleEntity that = (ArticleEntity) o;
-        return Objects.equals(id, that.id);
-    }
-
     public Collection<SaleArticleEntity> getSaleArticles() {
         return saleArticles;
     }
@@ -132,6 +125,21 @@ public class ArticleEntity implements Serializable {
         this.arrivalArticles = arrivalArticles;
     }
 
+    public Collection<StockHistoryEntity> getStockHistories() {
+        return stockHistories;
+    }
+
+    public void setStockHistories(Collection<StockHistoryEntity> stockHistories) {
+        this.stockHistories = stockHistories;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ArticleEntity that = (ArticleEntity) o;
+        return Objects.equals(id, that.id);
+    }
     @Override
     public int hashCode() {
         return Objects.hash(id);

@@ -23,8 +23,6 @@ public class ProductEntity implements Serializable {
     @ManyToOne
     @JoinColumn(name = "inventory_id")
     private InventoryEntity inventory;
-    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
-    private Collection<StockHistoryEntity> stockHistories;
     @OneToMany(mappedBy = "product" , fetch = FetchType.EAGER)
     private Collection<ProductTypeEntity> productTypes;
     public Long getId() {
@@ -57,14 +55,6 @@ public class ProductEntity implements Serializable {
 
     public void setProductCategory(ProductCategoryEntity productCategory) {
         this.productCategory = productCategory;
-    }
-
-    public Collection<StockHistoryEntity> getStockHistories() {
-        return stockHistories;
-    }
-
-    public void setStockHistories(Collection<StockHistoryEntity> stockHistories) {
-        this.stockHistories = stockHistories;
     }
 
     public Collection<ProductTypeEntity> getProductTypes() {

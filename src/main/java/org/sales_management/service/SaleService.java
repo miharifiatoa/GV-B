@@ -86,12 +86,12 @@ public class SaleService implements CrudInterface<SaleEntity> {
         }
         return sales;
     }
-    public Collection<SaleEntity> getSalesByDate(LocalDate date) {
+    public Collection<SaleEntity> getAcceptedAndPayedOrUnPayedSalesByDate(LocalDate date, boolean isPayed) {
         Transaction transaction = null;
         Collection<SaleEntity> sales = new HashSet<>();
         try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            sales = this.saleRepository.getSalesByDate(date);
+            sales = this.saleRepository.getAcceptedAndPayedOrUnPayedSalesByDate(date,isPayed);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {

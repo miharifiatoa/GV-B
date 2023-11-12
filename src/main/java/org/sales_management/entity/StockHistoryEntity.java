@@ -17,12 +17,12 @@ public class StockHistoryEntity implements Serializable {
     @Column(nullable = false)
     private int quantity;
     @Column(nullable = false)
-    private LocalDateTime arrivalDate;
-    @Column(nullable = false)
+    private LocalDateTime date;
     private String action;
+    private String description;
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private ProductEntity product;
+    @JoinColumn(name = "article_id")
+    private ArticleEntity article;
 
     public Long getId() {
         return id;
@@ -39,15 +39,6 @@ public class StockHistoryEntity implements Serializable {
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
-
-    public LocalDateTime getArrivalDate() {
-        return arrivalDate;
-    }
-
-    public void setArrivalDate(LocalDateTime arrivalDate) {
-        this.arrivalDate = arrivalDate;
-    }
-
     public String getAction() {
         return action;
     }
@@ -56,11 +47,27 @@ public class StockHistoryEntity implements Serializable {
         this.action = action;
     }
 
-    public ProductEntity getProduct() {
-        return product;
+    public LocalDateTime getDate() {
+        return date;
     }
 
-    public void setProduct(ProductEntity product) {
-        this.product = product;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public ArticleEntity getArticle() {
+        return article;
+    }
+
+    public void setArticle(ArticleEntity article) {
+        this.article = article;
     }
 }
