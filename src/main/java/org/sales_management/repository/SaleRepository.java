@@ -42,14 +42,27 @@ public class SaleRepository implements CrudInterface<SaleEntity> {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         return session.createQuery("from SaleEntity",SaleEntity.class).getResultList();
     }
-    public Collection<SaleEntity> getAcceptedAndPayedOrUnPayedSalesByDate(LocalDate date , boolean isPayed) {
+    public Collection<SaleEntity> getAcceptedAndPayedSalesByDate(LocalDate date) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         LocalDateTime startOfDay = date.atStartOfDay();
         LocalDateTime endOfDay = date.atTime(23, 59, 59);
-        Query<SaleEntity> query = session.createQuery("from SaleEntity where saleDate >= :startOfDay and saleDate <= :endOfDay and isCanceled = false and isPayed = : isPayed", SaleEntity.class);
+        Query<SaleEntity> query = session.createQuery("from SaleEntity where saleDate >= :startOfDay and saleDate <= :endOfDay and isCanceled = false and isPayed = true", SaleEntity.class);
         query.setParameter("startOfDay", startOfDay);
         query.setParameter("endOfDay", endOfDay);
-        query.setParameter("isPayed",isPayed);
+        return query.getResultList();
+    }
+    public Collection<SaleEntity> getAcceptedUnPayedSales() {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Query<SaleEntity> query = session.createQuery("from SaleEntity where isCanceled = false and isPayed = false", SaleEntity.class);
+        return query.getResultList();
+    }
+    public Collection<SaleEntity> getAcceptedSalesByDate(LocalDate date) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        LocalDateTime startOfDay = date.atStartOfDay();
+        LocalDateTime endOfDay = date.atTime(23, 59, 59);
+        Query<SaleEntity> query = session.createQuery("from SaleEntity where saleDate >= :startOfDay and saleDate <= :endOfDay and isCanceled = false", SaleEntity.class);
+        query.setParameter("startOfDay", startOfDay);
+        query.setParameter("endOfDay", endOfDay);
         return query.getResultList();
     }
     public Collection<SaleEntity> getAllSalesByDate(LocalDate date) {

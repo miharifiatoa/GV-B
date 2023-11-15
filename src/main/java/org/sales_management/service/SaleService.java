@@ -86,12 +86,42 @@ public class SaleService implements CrudInterface<SaleEntity> {
         }
         return sales;
     }
-    public Collection<SaleEntity> getAcceptedAndPayedOrUnPayedSalesByDate(LocalDate date, boolean isPayed) {
+    public Collection<SaleEntity> getAcceptedAndPayedSalesByDate(LocalDate date) {
         Transaction transaction = null;
         Collection<SaleEntity> sales = new HashSet<>();
         try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            sales = this.saleRepository.getAcceptedAndPayedOrUnPayedSalesByDate(date,isPayed);
+            sales = this.saleRepository.getAcceptedAndPayedSalesByDate(date);
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        return sales;
+    }
+    public Collection<SaleEntity> getAcceptedAndUnPayedSales() {
+        Transaction transaction = null;
+        Collection<SaleEntity> sales = new HashSet<>();
+        try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            sales = this.saleRepository.getAcceptedUnPayedSales();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+        return sales;
+    }
+    public Collection<SaleEntity> getAcceptedSalesByDate(LocalDate date) {
+        Transaction transaction = null;
+        Collection<SaleEntity> sales = new HashSet<>();
+        try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            sales = this.saleRepository.getAcceptedSalesByDate(date);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
