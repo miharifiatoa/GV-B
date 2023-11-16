@@ -77,13 +77,11 @@ public class ArrivalService implements CrudInterface<ArrivalEntity> {
             for (ArticleEntity article : articles){
                 ArrivalArticleEntity arrivalArticle = new ArrivalArticleEntity();
                 arrivalArticle.setArrivalDate(LocalDateTime.now());
-                arrivalArticle.setQuantity(article.getQuantity());
                 arrivalArticle.setArrival(arrival);
                 arrivalArticle.setArticle(article);
                 arrivalArticle.setCanceled(false);
                 session.persist(arrivalArticle);
                 ArticleEntity articleEntity = articleRepository.getById(article.getId());
-                articleEntity.setQuantity(articleEntity.getQuantity() + article.getQuantity());
                 session.merge(articleEntity);
             }
             session.persist(arrival);
@@ -106,7 +104,6 @@ public class ArrivalService implements CrudInterface<ArrivalEntity> {
             for (ArrivalArticleEntity arrivalArticle : arrival.getArrivalArticles()){
                 arrivalArticle.setCanceled(true);
                 ArticleEntity article = arrivalArticle.getArticle();
-                article.setQuantity(article.getQuantity() - arrivalArticle.getQuantity());
                 session.merge(arrivalArticle);
                 session.merge(arrivalArticle.getArticle());
             }
