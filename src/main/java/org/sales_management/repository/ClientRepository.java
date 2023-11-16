@@ -1,11 +1,14 @@
 package org.sales_management.repository;
 
 import org.hibernate.Session;
+import org.hibernate.query.Query;
 import org.sales_management.entity.ClientEntity;
+import org.sales_management.entity.ProductTypeEntity;
 import org.sales_management.interfaces.CrudInterface;
 import org.sales_management.session.HibernateUtil;
 
 import java.util.Collection;
+import java.util.List;
 
 public class ClientRepository implements CrudInterface<ClientEntity> {
     @Override
@@ -34,5 +37,11 @@ public class ClientRepository implements CrudInterface<ClientEntity> {
     @Override
     public Collection<ClientEntity> getAll() {
         return null;
+    }
+    public ClientEntity getByPhone(String telephone) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Query<ClientEntity> query = session.createQuery("FROM ClientEntity WHERE telephone = :telephone", ClientEntity.class);
+        query.setParameter("telephone", telephone);
+        return query.uniqueResult();
     }
 }

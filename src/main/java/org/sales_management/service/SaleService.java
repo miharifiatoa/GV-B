@@ -3,12 +3,9 @@ package org.sales_management.service;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.sales_management.entity.*;
-import org.sales_management.repository.PaymentRepository;
+import org.sales_management.repository.*;
 import org.sales_management.session.HibernateUtil;
 import org.sales_management.interfaces.CrudInterface;
-import org.sales_management.repository.ArticleRepository;
-import org.sales_management.repository.SaleArticleRepository;
-import org.sales_management.repository.SaleRepository;
 import org.sales_management.session.SessionManager;
 
 import java.time.LocalDate;
@@ -20,11 +17,13 @@ public class SaleService implements CrudInterface<SaleEntity> {
     private final SaleRepository saleRepository;
     private final PaymentRepository paymentRepository;
     private final ArticleRepository articleRepository;
+    private final ClientRepository clientRepository;
 
     public SaleService() {
         this.paymentRepository = new PaymentRepository();
         this.saleRepository = new SaleRepository();
         this.articleRepository = new ArticleRepository();
+        this.clientRepository = new ClientRepository();
     }
 
     @Override
@@ -200,4 +199,5 @@ public class SaleService implements CrudInterface<SaleEntity> {
         }
         return sale;
     }
+
 }

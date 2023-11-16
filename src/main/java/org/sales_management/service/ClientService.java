@@ -2,7 +2,9 @@ package org.sales_management.service;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.sales_management.entity.ClientEntity;
+import org.sales_management.entity.ProductTypeEntity;
 import org.sales_management.interfaces.CrudInterface;
 import org.sales_management.repository.ClientRepository;
 import org.sales_management.session.HibernateUtil;
@@ -62,5 +64,22 @@ public class ClientService implements CrudInterface<ClientEntity> {
     @Override
     public Collection<ClientEntity> getAll() {
         return null;
+    }
+    public ClientEntity getByPhone(String telephone) {
+        try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            Transaction transaction = session.beginTransaction();
+
+            Query<ClientEntity> query = session.createQuery("FROM ClientEntity WHERE telephone = :telephone", ClientEntity.class);
+            query.setParameter("telephone", telephone);
+
+            ClientEntity result = query.uniqueResult();
+
+            transaction.commit();
+            return result;
+        } catch (Exception e) {
+            // Gérer les exceptions
+            e.printStackTrace();
+            return null;
+        }
     }
 }

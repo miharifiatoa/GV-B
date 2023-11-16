@@ -113,6 +113,4 @@ public class ProductTypeService implements CrudInterface<ProductTypeEntity> {
         }
         return productType;
     }
-
-
 }
