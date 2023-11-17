@@ -1,50 +1,36 @@
 <?xml version='1.0' encoding='utf-8'?>
-
-<!--
-  ~ Hibernate, Relational Persistence for Idiomatic Java
-  ~
-  ~ License: GNU Lesser General Public License (LGPL), version 2.1 or later.
-  ~ See the lgpl.txt file in the root directory or <http://www.gnu.org/licenses/lgpl-2.1.html>.
-  -->
 <!DOCTYPE hibernate-configuration SYSTEM
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
     <session-factory>
-        <!-- Database connection settings -->
         <property name="connection.driver_class">org.postgresql.Driver</property>
-        <property name="connection.url">jdbc:postgresql://localhost:5432/sale-management</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/sale</property>
         <property name="connection.username">postgres</property>
         <property name="connection.password">MIHAJA</property>
 
-        <!-- JDBC connection pool (use the built-in) -->
         <property name="connection.pool_size">1</property>
 
-        <!-- SQL dialect -->
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 
-        <!-- Enable Hibernates automatic session context management -->
         <property name="current_session_context_class">thread</property>
 
-        <!-- Disable the second-level cache  -->
         <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
 
-        <!-- Echo all executed SQL to stdout -->
         <property name="show_sql">true</property>
 
-        <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
 
         <mapping class="org.sales_management.entity.PersonEntity"/>
         <mapping class="org.sales_management.entity.UserEntity"/>
         <mapping class="org.sales_management.entity.AccountEntity"/>
         <mapping class="org.sales_management.entity.ShopEntity"/>
-        <mapping class="org.sales_management.entity.ProductCategoryEntity"/>
-        <mapping class="org.sales_management.entity.InventoryEntity"/>
         <mapping class="org.sales_management.entity.ProductEntity"/>
-        <mapping class="org.sales_management.entity.StockHistoryEntity"/>
-        <mapping class="org.sales_management.entity.ArticleEntity"/>
-        <mapping class="org.sales_management.entity.ArrivalEntity"/>
+        <mapping class="org.sales_management.entity.InventoryEntity"/>
         <mapping class="org.sales_management.entity.ProductTypeEntity"/>
+        <mapping class="org.sales_management.entity.StockHistoryEntity"/>
+        <mapping class="org.sales_management.entity.ArticleTypeEntity"/>
+        <mapping class="org.sales_management.entity.ArrivalEntity"/>
+        <mapping class="org.sales_management.entity.ArticleEntity"/>
         <mapping class="org.sales_management.entity.SaleEntity"/>
         <mapping class="org.sales_management.entity.SaleArticleEntity"/>
         <mapping class="org.sales_management.entity.ArrivalArticleEntity"/>
@@ -53,5 +39,6 @@
         <mapping class="org.sales_management.entity.ClientEntity"/>
         <mapping class="org.sales_management.entity.PaymentEntity"/>
         <mapping class="org.sales_management.entity.PaymentModeEntity"/>
+        <mapping class="org.sales_management.entity.ProductCategoryEntity"/>
     </session-factory>
 </hibernate-configuration>

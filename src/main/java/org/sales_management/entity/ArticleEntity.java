@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -12,34 +11,26 @@ import java.util.Objects;
 @Table(name = "articles")
 public class ArticleEntity implements Serializable {
     @Serial
-    private static final long serialVersionUID = 1;
-    @GeneratedValue
+    private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false , unique = true)
     private String code;
-    private String size;
-    private String color;
-    private int quantity;
-    @Column(nullable = false)
     private Double price;
-    @Column(nullable = false)
-    private LocalDateTime createdDate;
     @ManyToOne
     @JoinColumn(name = "product_type_id")
-    private ProductTypeEntity productType;
+    private ProductTypeEntity productTypeEntity;
     @OneToMany(mappedBy = "article" , fetch = FetchType.EAGER)
-    private Collection<SaleArticleEntity> saleArticles;
-    @OneToMany(mappedBy = "article" , fetch = FetchType.EAGER)
-    private Collection<ShareArticleEntity> shareArticles;
-    @OneToMany(mappedBy = "article" , fetch = FetchType.EAGER)
-    private Collection<ArrivalArticleEntity> arrivalArticles;
-    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL)
-    private Collection<StockHistoryEntity> stockHistories;
+    private Collection<ArticleTypeEntity> articleTypeEntities;
+
     public Long getId() {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getCode() {
         return code;
@@ -47,34 +38,6 @@ public class ArticleEntity implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getSize() {
-        return size;
-    }
-
-    public void setSize(String size) {
-        this.size = size;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public Double getPrice() {
@@ -85,52 +48,20 @@ public class ArticleEntity implements Serializable {
         this.price = price;
     }
 
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
+    public ProductTypeEntity getProductTypeEntity() {
+        return productTypeEntity;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
+    public void setProductTypeEntity(ProductTypeEntity productTypeEntity) {
+        this.productTypeEntity = productTypeEntity;
     }
 
-    public ProductTypeEntity getProductType() {
-        return productType;
+    public Collection<ArticleTypeEntity> getArticleTypeEntities() {
+        return articleTypeEntities;
     }
 
-    public void setProductType(ProductTypeEntity productType) {
-        this.productType = productType;
-    }
-
-    public Collection<ShareArticleEntity> getShareArticles() {
-        return shareArticles;
-    }
-
-    public void setShareArticles(Collection<ShareArticleEntity> shareArticles) {
-        this.shareArticles = shareArticles;
-    }
-
-    public Collection<SaleArticleEntity> getSaleArticles() {
-        return saleArticles;
-    }
-
-    public void setSaleArticles(Collection<SaleArticleEntity> saleArticles) {
-        this.saleArticles = saleArticles;
-    }
-
-    public Collection<ArrivalArticleEntity> getArrivalArticles() {
-        return arrivalArticles;
-    }
-
-    public void setArrivalArticles(Collection<ArrivalArticleEntity> arrivalArticles) {
-        this.arrivalArticles = arrivalArticles;
-    }
-
-    public Collection<StockHistoryEntity> getStockHistories() {
-        return stockHistories;
-    }
-
-    public void setStockHistories(Collection<StockHistoryEntity> stockHistories) {
-        this.stockHistories = stockHistories;
+    public void setArticleTypeEntities(Collection<ArticleTypeEntity> articleTypeEntities) {
+        this.articleTypeEntities = articleTypeEntities;
     }
 
     @Override
@@ -138,10 +69,11 @@ public class ArticleEntity implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ArticleEntity that = (ArticleEntity) o;
-        return Objects.equals(id, that.id);
+        return Objects.equals(code, that.code);
     }
+
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(code);
     }
 }

@@ -20,8 +20,8 @@ public class ArrivalArticleEntity implements Serializable {
     @Column(nullable = false)
     private boolean isCanceled;
     @ManyToOne
-    @JoinColumn(name = "article_id")
-    private ArticleEntity article;
+    @JoinColumn(name = "article_type_id")
+    private ArticleTypeEntity articleType;
 
     public Long getId() {
         return id;
@@ -63,12 +63,11 @@ public class ArrivalArticleEntity implements Serializable {
         this.arrival = arrival;
     }
 
-    public ArticleEntity getArticle() {
-        return article;
+    public ArticleTypeEntity getArticleType() {
+        return articleType;
     }
 
-    public void setArticle(ArticleEntity article) {
-        this.article = article;
+    public void setArticleType(ArticleTypeEntity articleType) {
+        this.articleType = articleType;
     }
-
 }

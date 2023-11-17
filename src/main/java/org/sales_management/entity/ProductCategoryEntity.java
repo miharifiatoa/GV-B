@@ -2,22 +2,16 @@ package org.sales_management.entity;
 
 import jakarta.persistence.*;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.Collection;
-import java.util.Objects;
 
 @Entity
-@Table(name = "product_categories")
-public class ProductCategoryEntity implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+@Table(name = "categories")
+public class ProductCategoryEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
-    @Column(nullable = false , unique = true)
     private String name;
-    @OneToMany(mappedBy = "productCategory" ,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "productCategory")
     private Collection<ProductEntity> products;
 
     public Long getId() {
@@ -42,18 +36,5 @@ public class ProductCategoryEntity implements Serializable {
 
     public void setProducts(Collection<ProductEntity> products) {
         this.products = products;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ProductCategoryEntity article = (ProductCategoryEntity) o;
-        return Objects.equals(name, article.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
     }
 }

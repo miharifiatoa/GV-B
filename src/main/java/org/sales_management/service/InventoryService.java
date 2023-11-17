@@ -6,17 +6,17 @@ import org.sales_management.session.HibernateUtil;
 import org.sales_management.entity.InventoryEntity;
 import org.sales_management.interfaces.CrudInterface;
 import org.sales_management.repository.InventoryRepository;
-import org.sales_management.repository.ProductRepository;
+import org.sales_management.repository.ProductTypeRepository;
 
 import java.util.Collection;
 import java.util.HashSet;
 
 public class InventoryService implements CrudInterface<InventoryEntity> {
-    private final ProductRepository productRepository;
+    private final ProductTypeRepository productTypeRepository;
     private final InventoryRepository inventoryRepository;
 
     public InventoryService() {
-        this.productRepository = new ProductRepository();
+        this.productTypeRepository = new ProductTypeRepository();
         this.inventoryRepository = new InventoryRepository();
     }
 

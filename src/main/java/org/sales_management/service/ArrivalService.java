@@ -6,7 +6,7 @@ import org.sales_management.entity.*;
 import org.sales_management.session.HibernateUtil;
 import org.sales_management.interfaces.CrudInterface;
 import org.sales_management.repository.ArrivalRepository;
-import org.sales_management.repository.ArticleRepository;
+import org.sales_management.repository.ArticleTypeRepository;
 import org.sales_management.session.SessionManager;
 
 import java.time.LocalDate;
@@ -16,11 +16,11 @@ import java.util.HashSet;
 
 public class ArrivalService implements CrudInterface<ArrivalEntity> {
     private final ArrivalRepository arrivalRepository;
-    private final ArticleRepository articleRepository;
+    private final ArticleTypeRepository articleTypeRepository;
 
     public ArrivalService() {
         this.arrivalRepository = new ArrivalRepository();
-        this.articleRepository = new ArticleRepository();
+        this.articleTypeRepository = new ArticleTypeRepository();
     }
 
     @Override
@@ -70,19 +70,21 @@ public class ArrivalService implements CrudInterface<ArrivalEntity> {
         }
         return arrivals;
     }
-    public ArrivalEntity toSaveArrival(ArrivalEntity arrival , Collection<ArticleEntity> articles){
+    public ArrivalEntity toSaveArrival(ArrivalEntity arrival , Collection<ArticleTypeEntity> articles){
         Transaction transaction = null;
         try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            for (ArticleEntity article : articles){
+            for (ArticleTypeEntity articleType : articles){
                 ArrivalArticleEntity arrivalArticle = new ArrivalArticleEntity();
                 arrivalArticle.setArrivalDate(LocalDateTime.now());
                 arrivalArticle.setArrival(arrival);
-                arrivalArticle.setArticle(article);
+                arrivalArticle.setArticleType(articleType);
                 arrivalArticle.setCanceled(false);
+                arrivalArticle.setQuantity(articleType.getQuantity());
+                ArticleTypeEntity articleTypeEntity = articleTypeRepository.getById(articleType.getId());
+                articleTypeEntity.setQuantity(articleTypeEntity.getQuantity() + articleType.getQuantity());
                 session.persist(arrivalArticle);
-                ArticleEntity articleEntity = articleRepository.getById(article.getId());
-                session.merge(articleEntity);
+                session.merge(articleTypeEntity);
             }
             session.persist(arrival);
             transaction.commit();
@@ -103,9 +105,10 @@ public class ArrivalService implements CrudInterface<ArrivalEntity> {
             session.merge(arrival);
             for (ArrivalArticleEntity arrivalArticle : arrival.getArrivalArticles()){
                 arrivalArticle.setCanceled(true);
-                ArticleEntity article = arrivalArticle.getArticle();
+                ArticleTypeEntity articleType = arrivalArticle.getArticleType();
+                articleType.setQuantity(articleType.getQuantity() - arrivalArticle.getQuantity());
                 session.merge(arrivalArticle);
-                session.merge(arrivalArticle.getArticle());
+                session.merge(arrivalArticle.getArticleType());
             }
             transaction.commit();
         }

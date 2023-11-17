@@ -4,7 +4,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.sales_management.entity.ClientEntity;
-import org.sales_management.entity.ProductTypeEntity;
 import org.sales_management.interfaces.CrudInterface;
 import org.sales_management.repository.ClientRepository;
 import org.sales_management.session.HibernateUtil;

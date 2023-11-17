@@ -2,8 +2,7 @@ package org.sales_management.service;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.sales_management.entity.ArticleEntity;
-import org.sales_management.entity.ShareArticleEntity;
+import org.sales_management.entity.ArticleTypeEntity;
 import org.sales_management.session.HibernateUtil;
 import org.sales_management.entity.ArrivalArticleEntity;
 import org.sales_management.interfaces.CrudInterface;
@@ -55,7 +54,7 @@ public class ArrivalArticleService implements CrudInterface<ArrivalArticleEntity
     public Collection<ArrivalArticleEntity> getAll() {
         return null;
     }
-    public Collection<ArrivalArticleEntity> getArrivalsArticleInArticleByDate(ArticleEntity article, LocalDate date) {
+    public Collection<ArrivalArticleEntity> getArrivalsArticleInArticleByDate(ArticleTypeEntity article, LocalDate date) {
         Collection<ArrivalArticleEntity> matchingArrivalArticles = new HashSet<>();
         for (ArrivalArticleEntity arrivalArticle : article.getArrivalArticles()) {
             LocalDate arrivalDate = arrivalArticle.getArrivalDate().toLocalDate();

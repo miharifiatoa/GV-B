@@ -19,13 +19,14 @@ public class ProductTypeEntity implements Serializable {
     private String name;
     private String reference;
     private String brand;
-    private String quality;
     @ManyToOne
     @JoinColumn(name = "product_id")
-    private ProductEntity product;
-    @OneToMany(mappedBy = "productType" , fetch = FetchType.EAGER)
+        private ProductEntity product;
+    @ManyToOne
+    @JoinColumn(name = "inventory_id")
+    private InventoryEntity inventory;
+    @OneToMany(mappedBy = "productTypeEntity" , fetch = FetchType.EAGER)
     private Collection<ArticleEntity> articles;
-
     public Long getId() {
         return id;
     }
@@ -58,12 +59,8 @@ public class ProductTypeEntity implements Serializable {
         this.brand = brand;
     }
 
-    public String getQuality() {
-        return quality;
-    }
-
-    public void setQuality(String quality) {
-        this.quality = quality;
+    public InventoryEntity getInventory() {
+        return inventory;
     }
 
     public ProductEntity getProduct() {
@@ -72,6 +69,10 @@ public class ProductTypeEntity implements Serializable {
 
     public void setProduct(ProductEntity product) {
         this.product = product;
+    }
+
+    public void setInventory(InventoryEntity inventory) {
+        this.inventory = inventory;
     }
 
     public Collection<ArticleEntity> getArticles() {
@@ -86,8 +87,8 @@ public class ProductTypeEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProductTypeEntity that = (ProductTypeEntity) o;
-        return Objects.equals(name, that.name);
+        ProductTypeEntity product = (ProductTypeEntity) o;
+        return Objects.equals(name, product.name);
     }
 
     @Override

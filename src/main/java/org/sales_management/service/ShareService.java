@@ -5,7 +5,7 @@ import org.hibernate.Transaction;
 import org.sales_management.entity.*;
 import org.sales_management.session.HibernateUtil;
 import org.sales_management.interfaces.CrudInterface;
-import org.sales_management.repository.ArticleRepository;
+import org.sales_management.repository.ArticleTypeRepository;
 import org.sales_management.repository.ShareRepository;
 import org.sales_management.session.SessionManager;
 
@@ -16,10 +16,10 @@ import java.util.HashSet;
 
 public class ShareService implements CrudInterface<ShareEntity> {
     private final ShareRepository shareRepository;
-    private final ArticleRepository articleRepository;
+    private final ArticleTypeRepository articleTypeRepository;
 
     public ShareService() {
-        this.articleRepository = new ArticleRepository();
+        this.articleTypeRepository = new ArticleTypeRepository();
         this.shareRepository = new ShareRepository();
     }
 
@@ -59,21 +59,21 @@ public class ShareService implements CrudInterface<ShareEntity> {
         }
         return shares;
     }
-    public ShareEntity toShareArticles(ShareEntity share , Collection<ArticleEntity> articles){
+    public ShareEntity toShareArticles(ShareEntity share , Collection<ArticleTypeEntity> articles){
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            for (ArticleEntity article : articles){
+            for (ArticleTypeEntity article : articles){
                 ShareArticleEntity shareArticle = new ShareArticleEntity();
-                shareArticle.setArticle(article);
+                shareArticle.setArticleType(article);
                 shareArticle.setShare(share);
                 shareArticle.setQuantity(article.getQuantity());
                 shareArticle.setShareDate(LocalDateTime.now());
                 shareArticle.setCanceled(false);
                 session.persist(shareArticle);
-                ArticleEntity articleEntity = articleRepository.getById(article.getId());
-                articleEntity.setQuantity(articleEntity.getQuantity() - article.getQuantity());
-                session.merge(articleEntity);
+                ArticleTypeEntity articleTypeEntity = articleTypeRepository.getById(article.getId());
+                articleTypeEntity.setQuantity(articleTypeEntity.getQuantity() - article.getQuantity());
+                session.merge(articleTypeEntity);
             }
             session.persist(share);
             transaction.commit();
@@ -94,11 +94,10 @@ public class ShareService implements CrudInterface<ShareEntity> {
             session.merge(share);
             for (ShareArticleEntity shareArticle : share.getShareArticles()){
                 shareArticle.setCanceled(true);
-                ArticleEntity article = shareArticle.getArticle();
+                ArticleTypeEntity article = shareArticle.getArticleType();
                 article.setQuantity(article.getQuantity() + shareArticle.getQuantity());
                 session.merge(shareArticle);
-                session.merge(shareArticle.getArticle());
-
+                session.merge(article);
             }
             transaction.commit();
         }

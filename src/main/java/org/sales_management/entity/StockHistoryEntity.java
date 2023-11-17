@@ -21,8 +21,8 @@ public class StockHistoryEntity implements Serializable {
     private String action;
     private String description;
     @ManyToOne
-    @JoinColumn(name = "article_id")
-    private ArticleEntity article;
+    @JoinColumn(name = "article_type_id")
+    private ArticleTypeEntity articleType;
 
     public Long getId() {
         return id;
@@ -63,11 +63,11 @@ public class StockHistoryEntity implements Serializable {
         this.description = description;
     }
 
-    public ArticleEntity getArticle() {
-        return article;
+    public ArticleTypeEntity getArticleType() {
+        return articleType;
     }
 
-    public void setArticle(ArticleEntity article) {
-        this.article = article;
+    public void setArticleType(ArticleTypeEntity articleType) {
+        this.articleType = articleType;
     }
 }

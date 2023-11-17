@@ -13,8 +13,8 @@ public class ShareArticleEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @ManyToOne
-    @JoinColumn(name = "article_id")
-    private ArticleEntity article;
+    @JoinColumn(name = "article_type_id")
+    private ArticleTypeEntity articleType;
     @ManyToOne
     @JoinColumn(name = "share_id")
     private ShareEntity share;
@@ -31,12 +31,12 @@ public class ShareArticleEntity implements Serializable {
         this.id = id;
     }
 
-    public ArticleEntity getArticle() {
-        return article;
+    public ArticleTypeEntity getArticleType() {
+        return articleType;
     }
 
-    public void setArticle(ArticleEntity article) {
-        this.article = article;
+    public void setArticleType(ArticleTypeEntity articleType) {
+        this.articleType = articleType;
     }
 
     public LocalDateTime getShareDate() {

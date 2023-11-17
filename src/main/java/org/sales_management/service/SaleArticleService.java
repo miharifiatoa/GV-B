@@ -2,8 +2,7 @@ package org.sales_management.service;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
-import org.sales_management.entity.ArticleEntity;
-import org.sales_management.entity.ShareArticleEntity;
+import org.sales_management.entity.ArticleTypeEntity;
 import org.sales_management.session.HibernateUtil;
 import org.sales_management.entity.SaleArticleEntity;
 import org.sales_management.interfaces.CrudInterface;
@@ -55,7 +54,7 @@ public class SaleArticleService implements CrudInterface<SaleArticleEntity> {
     public Collection<SaleArticleEntity> getAll() {
         return null;
     }
-    public Collection<SaleArticleEntity> getSalesArticleInArticleByDate(ArticleEntity article, LocalDate date) {
+    public Collection<SaleArticleEntity> getSalesArticleInArticleByDate(ArticleTypeEntity article, LocalDate date) {
         Collection<SaleArticleEntity> matchingSaleArticles = new HashSet<>();
         for (SaleArticleEntity saleArticle : article.getSaleArticles()) {
             LocalDate saleDate = saleArticle.getSaleDate().toLocalDate();

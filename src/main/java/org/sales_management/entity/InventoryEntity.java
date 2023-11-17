@@ -18,7 +18,7 @@ public class InventoryEntity implements Serializable {
     private Integer code;
 
     @OneToMany(mappedBy = "inventory")
-    private Collection<ProductEntity> products;
+    private Collection<ProductTypeEntity> products;
 
     public Long getId() {
         return id;
@@ -36,11 +36,11 @@ public class InventoryEntity implements Serializable {
         this.code = code;
     }
 
-    public Collection<ProductEntity> getProducts() {
+    public Collection<ProductTypeEntity> getProducts() {
         return products;
     }
 
-    public void setProducts(Collection<ProductEntity> products) {
+    public void setProducts(Collection<ProductTypeEntity> products) {
         this.products = products;
     }
 }

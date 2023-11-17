@@ -18,13 +18,11 @@ public class ProductEntity implements Serializable {
     @Column(nullable = false , unique = true)
     private String name;
     @ManyToOne
-    @JoinColumn(name = "product_category_id")
+    @JoinColumn(name = "category_id")
     private ProductCategoryEntity productCategory;
-    @ManyToOne
-    @JoinColumn(name = "inventory_id")
-    private InventoryEntity inventory;
-    @OneToMany(mappedBy = "product" , fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "product" ,fetch = FetchType.EAGER)
     private Collection<ProductTypeEntity> productTypes;
+
     public Long getId() {
         return id;
     }
@@ -41,21 +39,6 @@ public class ProductEntity implements Serializable {
         this.name = name;
     }
 
-    public InventoryEntity getInventory() {
-        return inventory;
-    }
-
-    public void setInventory(InventoryEntity inventory) {
-        this.inventory = inventory;
-    }
-
-    public ProductCategoryEntity getProductCategory() {
-        return productCategory;
-    }
-
-    public void setProductCategory(ProductCategoryEntity productCategory) {
-        this.productCategory = productCategory;
-    }
 
     public Collection<ProductTypeEntity> getProductTypes() {
         return productTypes;
@@ -69,8 +52,16 @@ public class ProductEntity implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ProductEntity product = (ProductEntity) o;
-        return Objects.equals(name, product.name);
+        ProductEntity article = (ProductEntity) o;
+        return Objects.equals(name, article.name);
+    }
+
+    public ProductCategoryEntity getProductCategory() {
+        return productCategory;
+    }
+
+    public void setProductCategory(ProductCategoryEntity productCategory) {
+        this.productCategory = productCategory;
     }
 
     @Override

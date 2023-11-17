@@ -3,7 +3,6 @@ package org.sales_management.service;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.sales_management.entity.PaymentModeEntity;
-import org.sales_management.entity.ProductEntity;
 import org.sales_management.interfaces.CrudInterface;
 import org.sales_management.repository.PaymentModeRepository;
 import org.sales_management.session.HibernateUtil;

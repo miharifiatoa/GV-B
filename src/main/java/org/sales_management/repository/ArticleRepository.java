@@ -11,10 +11,10 @@ import java.util.List;
 
 public class ArticleRepository implements CrudInterface<ArticleEntity> {
     @Override
-    public ArticleEntity create(ArticleEntity article) {
+    public ArticleEntity create(ArticleEntity productType) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.persist(article);
-        return article;
+        session.persist(productType);
+        return productType;
     }
 
     @Override
@@ -26,18 +26,20 @@ public class ArticleRepository implements CrudInterface<ArticleEntity> {
     @Override
     public ArticleEntity deleteById(Long id) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        ArticleEntity priceVariation = session.load(ArticleEntity.class,id);
-        session.delete(priceVariation);
-        return priceVariation;
+        ArticleEntity productType = getById(id);
+        if (productType != null){
+            session.remove(productType);
+        }
+        return productType;
     }
 
     @Override
-    public ArticleEntity update(ArticleEntity article) {
+    public ArticleEntity update(ArticleEntity productType) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        if (article != null){
-            session.merge(article);
+        if (productType != null){
+            session.merge(productType);
         }
-        return article;
+        return productType;
     }
 
     @Override
@@ -54,6 +56,8 @@ public class ArticleRepository implements CrudInterface<ArticleEntity> {
         if (results != null && !results.isEmpty()) {
             return results.get(0);
         }
+
         return null;
     }
+
 }

@@ -2,8 +2,8 @@ package org.sales_management.repository;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
-import org.sales_management.session.HibernateUtil;
 import org.sales_management.entity.ProductEntity;
+import org.sales_management.session.HibernateUtil;
 import org.sales_management.interfaces.CrudInterface;
 
 import java.util.Collection;
@@ -11,10 +11,10 @@ import java.util.List;
 
 public class ProductRepository implements CrudInterface<ProductEntity> {
     @Override
-    public ProductEntity create(ProductEntity product) {
+    public ProductEntity create(ProductEntity article) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.persist(product);
-        return product;
+        session.persist(article);
+        return article;
     }
 
     @Override
@@ -26,32 +26,28 @@ public class ProductRepository implements CrudInterface<ProductEntity> {
     @Override
     public ProductEntity deleteById(Long id) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        ProductEntity product = getById(id);
-        if (product!=null){
-            session.remove(product);
+        ProductEntity article = getById(id);
+        if (article!=null){
+            session.remove(article);
         }
-        return product;
+        return article;
     }
 
     @Override
-    public ProductEntity update(ProductEntity product) {
-        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        if (product!=null){
-            session.merge(product);
-        }
-        return product;
+    public ProductEntity update(ProductEntity obj) {
+        return null;
     }
 
     @Override
     public Collection<ProductEntity> getAll() {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        return session.createQuery("from ProductEntity",ProductEntity.class).getResultList();
+        return session.createQuery("from ProductEntity", ProductEntity.class).getResultList();
     }
-    public ProductEntity getProductByName(String productName) {
+    public ProductEntity isUniqueValue(String name) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         String hql = "SELECT e FROM ProductEntity e WHERE LOWER(e.name) = :name";
         Query<ProductEntity> query = session.createQuery(hql, ProductEntity.class);
-        query.setParameter("name", productName);
+        query.setParameter("name", name);
         List<ProductEntity> results = query.list();
         if (results != null && !results.isEmpty()) {
             return results.get(0);

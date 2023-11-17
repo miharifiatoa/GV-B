@@ -16,13 +16,13 @@ import java.util.HashSet;
 public class SaleService implements CrudInterface<SaleEntity> {
     private final SaleRepository saleRepository;
     private final PaymentRepository paymentRepository;
-    private final ArticleRepository articleRepository;
+    private final ArticleTypeRepository articleTypeRepository;
     private final ClientRepository clientRepository;
 
     public SaleService() {
         this.paymentRepository = new PaymentRepository();
         this.saleRepository = new SaleRepository();
-        this.articleRepository = new ArticleRepository();
+        this.articleTypeRepository = new ArticleTypeRepository();
         this.clientRepository = new ClientRepository();
     }
 
@@ -145,21 +145,21 @@ public class SaleService implements CrudInterface<SaleEntity> {
         }
         return sales;
     }
-    public SaleEntity toSaleArticles(SaleEntity sale, Collection<ArticleEntity> articlesToSale) {
+    public SaleEntity toSaleArticles(SaleEntity sale, Collection<ArticleTypeEntity> articlesToSale) {
         Transaction transaction = null;
         try (Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            for (ArticleEntity article : articlesToSale) {
+            for (ArticleTypeEntity articleType : articlesToSale) {
                 SaleArticleEntity saleArticle = new SaleArticleEntity();
                 saleArticle.setSale(sale);
-                saleArticle.setArticle(article);
-                saleArticle.setQuantity(article.getQuantity());
+                saleArticle.setArticleType(articleType);
+                saleArticle.setQuantity(articleType.getQuantity());
                 saleArticle.setSaleDate(LocalDateTime.now());
                 saleArticle.setCanceled(false);
+                ArticleTypeEntity articleTypeEntity = articleTypeRepository.getById(articleType.getId());
+                articleTypeEntity.setQuantity(articleTypeEntity.getQuantity() - articleType.getQuantity());
                 session.persist(saleArticle);
-                ArticleEntity articleEntity = articleRepository.getById(article.getId());
-                articleEntity.setQuantity(articleEntity.getQuantity() - article.getQuantity());
-                session.merge(articleEntity);
+                session.merge(articleTypeEntity);
             }
             session.persist(sale);
             transaction.commit();
@@ -180,10 +180,10 @@ public class SaleService implements CrudInterface<SaleEntity> {
             session.merge(sale);
             for (SaleArticleEntity saleArticle : sale.getSaleArticles()){
                 saleArticle.setCanceled(true);
-                ArticleEntity article = saleArticle.getArticle();
-                article.setQuantity(article.getQuantity() + saleArticle.getQuantity());
+                ArticleTypeEntity articleType = saleArticle.getArticleType();
+                articleType.setQuantity(articleType.getQuantity() + saleArticle.getQuantity());
                 session.merge(saleArticle);
-                session.merge(saleArticle.getArticle());
+                session.merge(articleType);
             }
             for (PaymentEntity payment : sale.getPayments()){
                 PaymentEntity paymentEntity = paymentRepository.getById(payment.getId());
