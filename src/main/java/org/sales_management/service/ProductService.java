@@ -10,6 +10,7 @@ import org.sales_management.repository.ProductRepository;
 
 import java.util.Collection;
 import java.util.HashSet;
+import org.hibernate.query.Query;
 
 public class ProductService implements CrudInterface<ProductEntity> {
     private final ProductRepository productRepository;
@@ -103,5 +104,23 @@ public class ProductService implements CrudInterface<ProductEntity> {
             }
         }
         return productCategory;
+    }
+    
+    public Collection<ProductEntity> searchProductsByName(String name){
+        Transaction transaction = null;
+        Collection<ProductEntity> foundProducts = new HashSet<>();
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            Query<ProductEntity> productEntityQuery = session.createQuery("from ProductEntity where name like :name", ProductEntity.class);
+            productEntityQuery.setParameter("name","%"+name+"%");
+            foundProducts = productEntityQuery.getResultList();
+            transaction.commit();
+        }
+        catch (Exception e){
+            if (transaction!=null){
+                transaction.rollback();
+            }
+        }
+        return foundProducts;
     }
 }

@@ -108,9 +108,9 @@ public class ProductTypeService implements CrudInterface<ProductTypeEntity> {
         Collection<ProductTypeEntity> foundProducts = new HashSet<>();
         try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            Query<ProductTypeEntity> productEntityQuery = session.createQuery("from ProductEntity where name like :name", ProductTypeEntity.class);
-            productEntityQuery.setParameter("name","%"+name+"%");
-            foundProducts = productEntityQuery.getResultList();
+            Query<ProductTypeEntity> productTypeEntityQuery = session.createQuery("from ProductTypeEntity where name like :name", ProductTypeEntity.class);
+            productTypeEntityQuery.setParameter("name","%"+name+"%");
+            foundProducts = productTypeEntityQuery.getResultList();
             transaction.commit();
         }
         catch (Exception e){
