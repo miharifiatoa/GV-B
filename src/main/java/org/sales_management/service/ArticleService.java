@@ -2,6 +2,8 @@ package org.sales_management.service;
 
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+import org.sales_management.entity.ArticleTypeEntity;
 import org.sales_management.session.HibernateUtil;
 import org.sales_management.entity.ArticleEntity;
 import org.sales_management.interfaces.CrudInterface;
@@ -98,12 +100,12 @@ public class ArticleService implements CrudInterface<ArticleEntity> {
         }
         return productTypes;
     }
-    public ArticleEntity isUniqueValue(String productTypeName){
+    public ArticleEntity isUniqueValue(String code){
         Transaction transaction = null;
         ArticleEntity productType = new ArticleEntity();
         try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            productType = articleRepository.isUniqueValue(productTypeName);
+            productType = articleRepository.isUniqueValue(code);
             transaction.commit();
         }
         catch (Exception e){
@@ -112,5 +114,22 @@ public class ArticleService implements CrudInterface<ArticleEntity> {
             }
         }
         return productType;
+    }
+    public Collection<ArticleEntity> searchArticleByCode(String code){
+        Transaction transaction = null;
+        Collection<ArticleEntity> foundArticles = new HashSet<>();
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            Query<ArticleEntity> arrivalEntityQuery = session.createQuery("from ArticleEntity where code like :code", ArticleEntity.class);
+            arrivalEntityQuery.setParameter("code","%"+code+"%");
+            foundArticles = arrivalEntityQuery.getResultList();
+            transaction.commit();
+        }
+        catch (Exception e){
+            if (transaction!=null){
+                transaction.rollback();
+            }
+        }
+        return foundArticles;
     }
 }

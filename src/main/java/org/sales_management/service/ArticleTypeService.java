@@ -105,23 +105,6 @@ public class ArticleTypeService implements CrudInterface<ArticleTypeEntity> {
         }
         return priceVariations;
     }
-    public Collection<ArticleTypeEntity> searchArticleByByCode(String code){
-        Transaction transaction = null;
-        Collection<ArticleTypeEntity> foundArticles = new HashSet<>();
-        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
-            transaction = session.beginTransaction();
-            Query<ArticleTypeEntity> arrivalEntityQuery = session.createQuery("from ArticleEntity where code like :code", ArticleTypeEntity.class);
-            arrivalEntityQuery.setParameter("code","%"+code+"%");
-            foundArticles = arrivalEntityQuery.getResultList();
-            transaction.commit();
-        }
-        catch (Exception e){
-            if (transaction!=null){
-                transaction.rollback();
-            }
-        }
-        return foundArticles;
-    }
 //    public ArticleTypeEntity isUniqueValue(String articleName){
 //        Transaction transaction = null;
 //        ArticleTypeEntity article = new ArticleTypeEntity();

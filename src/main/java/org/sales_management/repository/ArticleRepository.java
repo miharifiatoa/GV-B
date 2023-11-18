@@ -56,7 +56,6 @@ public class ArticleRepository implements CrudInterface<ArticleEntity> {
         if (results != null && !results.isEmpty()) {
             return results.get(0);
         }
-
         return null;
     }
 
