@@ -2,16 +2,17 @@ package org.sales_management.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 @Entity
 @Table(name = "categories")
-public class ProductCategoryEntity {
+public class ProductCategoryEntity implements Serializable {
     @Id
     @GeneratedValue
     private Long id;
     private String name;
-    @OneToMany(mappedBy = "productCategory")
+    @OneToMany(mappedBy = "productCategory" , fetch = FetchType.EAGER)
     private Collection<ProductEntity> products;
 
     public Long getId() {
