@@ -23,12 +23,19 @@ public class PersonRepository implements CrudInterface<PersonEntity> {
 
     @Override
     public PersonEntity deleteById(Long id) {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        PersonEntity personne = getById(id);
+        if(personne!=null){ session.remove(personne); }
+        return personne;
     }
 
     @Override
-    public PersonEntity update(PersonEntity obj) {
-        return null;
+    public PersonEntity update(PersonEntity personne) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        if (personne!=null){
+            session.merge(personne);
+        }
+        return personne;
     }
 
     @Override

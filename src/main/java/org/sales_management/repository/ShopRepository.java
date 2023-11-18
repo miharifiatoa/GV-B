@@ -32,8 +32,12 @@ public class ShopRepository implements CrudInterface<ShopEntity> {
     }
 
     @Override
-    public ShopEntity update(ShopEntity obj) {
-        return null;
+    public ShopEntity update(ShopEntity new_shop) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        if (new_shop!=null){
+            session.merge(new_shop);
+        }
+        return new_shop;
     }
     @Override
     public Collection<ShopEntity> getAll() {

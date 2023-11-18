@@ -19,7 +19,19 @@ public class PaymentModeService implements CrudInterface<PaymentModeEntity> {
 
     @Override
     public PaymentModeEntity create(PaymentModeEntity obj) {
-        return null;
+        Transaction transaction = null;
+        try {
+            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            transaction = session.beginTransaction();
+            this.paymentModeRepository.create(obj);
+            transaction.commit();
+        }
+        catch (Exception e){
+            if (transaction!=null){
+                transaction.rollback();
+            }
+        }
+        return obj;
     }
 
     @Override
@@ -41,7 +53,27 @@ public class PaymentModeService implements CrudInterface<PaymentModeEntity> {
 
     @Override
     public PaymentModeEntity deleteById(Long id) {
-        return null;
+        PaymentModeEntity mode = new PaymentModeEntity();
+        Session session = null;
+        Transaction transaction = null;
+        try{
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            transaction = session.beginTransaction();
+            mode = this.paymentModeRepository.deleteById(id);
+            transaction.commit();
+        }
+        catch(Throwable t){
+            if(transaction!=null){
+                transaction.rollback();
+            }
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
+            }
+        }
+        return mode;
     }
 
     @Override

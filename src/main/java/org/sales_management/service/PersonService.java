@@ -52,12 +52,44 @@ public class PersonService implements CrudInterface<PersonEntity> {
 
     @Override
     public PersonEntity deleteById(Long id) {
-        return null;
+        PersonEntity personne = new PersonEntity();
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            transaction = session.beginTransaction();
+            personne = this.personRepository.deleteById(id);
+            transaction.commit();
+        }
+        catch(Throwable t){
+            if(transaction!=null){
+                transaction.rollback();
+            }
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
+            }
+        }
+        return personne;
     }
 
     @Override
-    public PersonEntity update(PersonEntity obj) {
-        return null;
+    public PersonEntity update(PersonEntity new_personne) {
+        Transaction transaction = null;
+        PersonEntity personne = new PersonEntity();
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            personne = this.personRepository.update(new_personne);
+            transaction.commit();
+        }
+        catch (Exception e){
+            if (transaction!=null){
+                transaction.rollback();
+            }
+        }
+        return personne;
     }
 
     @Override

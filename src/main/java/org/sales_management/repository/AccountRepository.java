@@ -33,8 +33,12 @@ public class AccountRepository implements CrudInterface<AccountEntity> {
     }
 
     @Override
-    public AccountEntity update(AccountEntity obj) {
-        return null;
+    public AccountEntity update(AccountEntity account) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        if (account!=null){
+            session.merge(account);
+        }
+        return account;
     }
 
     @Override

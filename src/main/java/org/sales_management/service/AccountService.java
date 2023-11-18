@@ -55,23 +55,51 @@ public class AccountService implements CrudInterface<AccountEntity> {
     @Override
     public AccountEntity deleteById(Long id) {
         AccountEntity account = new AccountEntity();
+        Session session = null;
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+        try{
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
             account = this.accountRepository.deleteById(id);
             transaction.commit();
         }
-        catch (Exception e){
-            if (transaction!=null){
+        catch(Throwable t){
+            if(transaction!=null){
                 transaction.rollback();
+            }
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
             }
         }
         return account;
     }
 
     @Override
-    public AccountEntity update(AccountEntity obj) {
-        return null;
+    public AccountEntity update(AccountEntity new_account) {
+        Session session = null;
+        Transaction transaction = null;
+        AccountEntity account = new AccountEntity();
+        try {
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            transaction = session.beginTransaction();
+            account = this.accountRepository.update(new_account);
+            transaction.commit();
+        }
+        catch(Throwable t){
+            if(transaction!=null){
+                transaction.rollback();
+            }
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
+            }
+        }
+        return account;
     }
 
     @Override

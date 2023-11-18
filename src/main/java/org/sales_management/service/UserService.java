@@ -41,12 +41,42 @@ public class UserService implements CrudInterface<UserEntity> {
 
     @Override
     public UserEntity deleteById(Long id) {
-        return null;
+        UserEntity user = new UserEntity();
+        Session session = null;
+        Transaction transaction = null;
+                try{
+                session = HibernateUtil.getSessionFactory().getCurrentSession();
+                transaction = session.beginTransaction();
+                user = this.userRepository.deleteById(id);
+                transaction.commit();
+                }
+                catch(Throwable t){
+            if(transaction!=null){
+                transaction.rollback();
+            }
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
+            }
+        }
+        return user;
     }
 
     @Override
-    public UserEntity update(UserEntity obj) {
-        return null;
+    public UserEntity update(UserEntity new_user) {
+        Transaction transaction = null;
+        UserEntity user = new UserEntity();
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            user = this.userRepository.update(new_user);
+            transaction.commit();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return user;
     }
 
     @Override
@@ -55,19 +85,30 @@ public class UserService implements CrudInterface<UserEntity> {
     }
 
     public AccountEntity getAccountByUsername(String username){
+        Session session = null;
         Transaction transaction = null;
         AccountEntity account = new AccountEntity();
         try{
-            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
-            account = userRepository.getAccountByUserName(username);
+            if(userRepository.getAccountByUserName(username)!=null)
+            { account = userRepository.getAccountByUserName(username); }
             transaction.commit();
         }
-        catch (HibernateException e){
-            if (transaction!=null){
+        catch(Throwable t){
+            if(transaction!=null){
                 transaction.rollback();
+            }
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
             }
         }
         return account;
     }
 }
+        
+         
+         

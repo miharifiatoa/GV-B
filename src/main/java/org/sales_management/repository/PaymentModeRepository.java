@@ -10,7 +10,9 @@ import java.util.Collection;
 public class PaymentModeRepository implements CrudInterface<PaymentModeEntity> {
     @Override
     public PaymentModeEntity create(PaymentModeEntity obj) {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        session.persist(obj);
+        return obj;
     }
 
     @Override
@@ -21,12 +23,21 @@ public class PaymentModeRepository implements CrudInterface<PaymentModeEntity> {
 
     @Override
     public PaymentModeEntity deleteById(Long id) {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        PaymentModeEntity mode = getById(id);
+        if (mode!=null){
+            session.remove(mode);
+        }
+        return mode;
     }
 
     @Override
     public PaymentModeEntity update(PaymentModeEntity obj) {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        if (obj!=null){
+            session.merge(obj);
+        }
+        return obj;
     }
 
     @Override

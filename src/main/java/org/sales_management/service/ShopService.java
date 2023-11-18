@@ -55,23 +55,51 @@ public class ShopService implements CrudInterface<ShopEntity> {
     public ShopEntity deleteById(Long id) {
 
         ShopEntity shop = new ShopEntity();
+        Session session = null;
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+        try{
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
             shop = this.shopRepository.deleteById(id);
             transaction.commit();
         }
-        catch (Exception e){
-            if (transaction!=null){
+        catch(Throwable t){
+            if(transaction!=null){
                 transaction.rollback();
+            }
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
             }
         }
         return shop;
     }
 
     @Override
-    public ShopEntity update(ShopEntity obj) {
-        return null;
+    public ShopEntity update(ShopEntity new_shop) {
+        Session session = null;
+        Transaction transaction = null;
+        ShopEntity shop = new ShopEntity();
+        try {
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            transaction = session.beginTransaction();
+            shop = this.shopRepository.update(new_shop);
+            transaction.commit();
+        }
+        catch(Throwable t){
+            if(transaction!=null){
+                transaction.rollback();
+            }
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
+            }
+        }
+        return new_shop;
     }
 
     @Override

@@ -19,17 +19,26 @@ public class UserRepository implements CrudInterface<UserEntity> {
 
     @Override
     public UserEntity getById(Long id) {
-        return null;
+        
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        return session.get(UserEntity.class, id);
     }
 
     @Override
     public UserEntity deleteById(Long id) {
-        return null;
+        UserEntity user = getById(id);
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        if(user!=null){ session.remove(user); }
+        return user;
     }
 
     @Override
-    public UserEntity update(UserEntity obj) {
-        return null;
+    public UserEntity update(UserEntity user) {
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        if (user!=null){
+            session.merge(user);
+        } 
+        return user;
     }
 
     @Override
@@ -37,9 +46,18 @@ public class UserRepository implements CrudInterface<UserEntity> {
         return null;
     }
     public AccountEntity getAccountByUserName(String username){
+        AccountEntity inSession = new AccountEntity();
+        try {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
         Query<AccountEntity> query = session.createQuery("SELECT a FROM AccountEntity a WHERE a.username = :username", AccountEntity.class);
         query.setParameter("username", username);
-        return query.getSingleResult();
+        
+        if(query.uniqueResult() !=null && query.getSingleResult().getId()>0) {
+            inSession = query.getSingleResult();
+        }
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+        return inSession;
     }
 }
