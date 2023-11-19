@@ -8,6 +8,7 @@ import org.sales_management.interfaces.CrudInterface;
 import org.sales_management.repository.StockHistoryRepository;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 public class StockHistoryService implements CrudInterface<StockHistoryEntity> {
     private final StockHistoryRepository stockHistoryRepository;
@@ -34,21 +35,101 @@ public class StockHistoryService implements CrudInterface<StockHistoryEntity> {
 
     @Override
     public StockHistoryEntity getById(Long id) {
-        return null;
+        StockHistoryEntity history = new StockHistoryEntity();
+        Session session = null;
+        Transaction transaction = null;
+        try{
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            transaction = session.beginTransaction();
+            history = stockHistoryRepository.getById(id);
+            transaction.commit();
+        }
+        catch(Throwable t){
+            if(transaction!=null){
+                transaction.rollback();
+            }
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
+            }
+        }
+        return history;
     }
 
     @Override
     public StockHistoryEntity deleteById(Long id) {
-        return null;
+        StockHistoryEntity history = new StockHistoryEntity();
+        Session session = null;
+        Transaction transaction = null;
+        try{
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            transaction = session.beginTransaction();
+            history = this.stockHistoryRepository.deleteById(id);
+            transaction.commit();
+        }
+        catch(Throwable t){
+            if(transaction!=null){
+                transaction.rollback();
+            }
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
+            }
+        }
+        return history;
     }
 
     @Override
     public StockHistoryEntity update(StockHistoryEntity obj) {
-        return null;
+        Session session = null;
+        Transaction transaction = null;
+        StockHistoryEntity history = new StockHistoryEntity();
+        try {
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            transaction = session.beginTransaction();
+            history = this.stockHistoryRepository.update(obj);
+            transaction.commit();
+        }
+        catch(Throwable t){
+            if(transaction!=null){
+                transaction.rollback();
+            }
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
+            }
+        }
+        return history;
     }
 
     @Override
     public Collection<StockHistoryEntity> getAll() {
-        return null;
+        Collection<StockHistoryEntity> collection = new HashSet<>();
+        Session session = null;
+        Transaction transaction = null;
+        try {
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
+            transaction = session.beginTransaction();
+            collection = this.stockHistoryRepository.getAll();
+            transaction.commit();
+        } 
+        catch(Throwable t){
+            if(transaction!=null){
+                transaction.rollback();
+            }
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
+            }
+        }
+        return collection;
     }
 }

@@ -17,21 +17,32 @@ public class StockHistoryRepository implements CrudInterface<StockHistoryEntity>
 
     @Override
     public StockHistoryEntity getById(Long id) {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        return  session.get(StockHistoryEntity.class,id);
     }
 
     @Override
     public StockHistoryEntity deleteById(Long id) {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        StockHistoryEntity history = getById(id);
+        if (history!=null){
+            session.remove(history);
+        }
+        return history;
     }
 
     @Override
     public StockHistoryEntity update(StockHistoryEntity obj) {
-        return null;
+         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        if (obj!=null){
+            session.merge(obj);
+        }
+        return obj;
     }
 
     @Override
     public Collection<StockHistoryEntity> getAll() {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        return session.createQuery("from StockHistoryEntity",StockHistoryEntity.class).getResultList();    
     }
 }
