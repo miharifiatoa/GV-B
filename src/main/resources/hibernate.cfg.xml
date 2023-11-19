@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration SYSTEM
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">org.postgresql.Driver</property>
+        <property name="connection.url">jdbc:postgresql://localhost:5432/sale</property>
+        <property name="connection.username">postgres</property>
+        <property name="connection.password">0327060589</property>
+
+        <property name="connection.pool_size">1</property>
+
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+        <property name="current_session_context_class">thread</property>
+
+        <property name="cache.provider_class">org.hibernate.cache.internal.NoCacheProvider</property>
+
+        <property name="show_sql">true</property>
+
+        <property name="hbm2ddl.auto">update</property>
+
+        <mapping class="org.sales_management.entity.PersonEntity"/>
+        <mapping class="org.sales_management.entity.UserEntity"/>
+        <mapping class="org.sales_management.entity.AccountEntity"/>
+        <mapping class="org.sales_management.entity.ShopEntity"/>
+        <mapping class="org.sales_management.entity.ProductEntity"/>
+        <mapping class="org.sales_management.entity.InventoryEntity"/>
+        <mapping class="org.sales_management.entity.ProductTypeEntity"/>
+        <mapping class="org.sales_management.entity.StockHistoryEntity"/>
+        <mapping class="org.sales_management.entity.ArticleTypeEntity"/>
+        <mapping class="org.sales_management.entity.ArrivalEntity"/>
+        <mapping class="org.sales_management.entity.ArticleEntity"/>
+        <mapping class="org.sales_management.entity.SaleEntity"/>
+        <mapping class="org.sales_management.entity.SaleArticleEntity"/>
+        <mapping class="org.sales_management.entity.ArrivalArticleEntity"/>
+        <mapping class="org.sales_management.entity.ShareArticleEntity"/>
+        <mapping class="org.sales_management.entity.ShareEntity"/>
+        <mapping class="org.sales_management.entity.ClientEntity"/>
+        <mapping class="org.sales_management.entity.PaymentEntity"/>
+        <mapping class="org.sales_management.entity.PaymentModeEntity"/>
+        <mapping class="org.sales_management.entity.ProductCategoryEntity"/>
+    </session-factory>
+</hibernate-configuration>
