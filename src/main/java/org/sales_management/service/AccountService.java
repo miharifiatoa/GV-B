@@ -21,15 +21,22 @@ public class AccountService implements CrudInterface<AccountEntity> {
     @Override
     public AccountEntity create(AccountEntity account) {
         Transaction transaction = null;
-        try {
-            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        Session session = null;
+        try{
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
             this.accountRepository.create(account);
             transaction.commit();
         }
-        catch (Exception e){
-            if (transaction!=null){
+        catch(Throwable t){
+            if(transaction!=null){
                 transaction.rollback();
+            }
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
             }
         }
         return account;
@@ -38,15 +45,23 @@ public class AccountService implements CrudInterface<AccountEntity> {
     @Override
     public AccountEntity getById(Long id) {
         AccountEntity account = new AccountEntity();
+        Session session = null;
         Transaction transaction = null;
-        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+        try{
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
             account = accountRepository.getById(id);
             transaction.commit();
         }
-        catch (Exception e){
-            if (transaction!=null){
+        catch(Throwable t){
+            if(transaction!=null){
                 transaction.rollback();
+            }
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
             }
         }
         return account;
@@ -105,30 +120,46 @@ public class AccountService implements CrudInterface<AccountEntity> {
     @Override
     public Collection<AccountEntity> getAll() {
         Collection<AccountEntity> collection = new HashSet<>();
+        Session session = null;
         Transaction transaction = null;
         try {
-            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
             collection = this.accountRepository.getAll();
             transaction.commit();
-        } catch (HibernateException e) {
-            if (transaction!=null){
+        } 
+        catch(Throwable t){
+            if(transaction!=null){
                 transaction.rollback();
+            }
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
             }
         }
         return collection;
     }
     public boolean isUniqueValue(String value){
         boolean isUnique = false;
+        Session session = null;
         Transaction transaction = null;
         try {
-            Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
             isUnique = this.accountRepository.isUniqueValue(value);
             transaction.commit();
-        } catch (HibernateException e) {
-            if (transaction!=null){
+        }  
+        catch(Throwable t){
+            if(transaction!=null){
                 transaction.rollback();
+            }
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
             }
         }
         return isUnique;

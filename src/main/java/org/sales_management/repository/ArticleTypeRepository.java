@@ -1,13 +1,11 @@
 package org.sales_management.repository;
 
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 import org.sales_management.session.HibernateUtil;
 import org.sales_management.entity.ArticleTypeEntity;
 import org.sales_management.interfaces.CrudInterface;
 
 import java.util.Collection;
-import java.util.List;
 
 public class ArticleTypeRepository implements CrudInterface<ArticleTypeEntity> {
     @Override

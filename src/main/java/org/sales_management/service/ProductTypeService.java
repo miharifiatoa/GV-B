@@ -104,35 +104,51 @@ public class ProductTypeService implements CrudInterface<ProductTypeEntity> {
         return products;
     }
     public Collection<ProductTypeEntity> searchProductsByName(String name){
+        Session session = null;
         Transaction transaction = null;
         Collection<ProductTypeEntity> foundProducts = new HashSet<>();
-        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+        try{
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
             Query<ProductTypeEntity> productTypeEntityQuery = session.createQuery("from ProductTypeEntity where name like :name", ProductTypeEntity.class);
             productTypeEntityQuery.setParameter("name","%"+name+"%");
             foundProducts = productTypeEntityQuery.getResultList();
             transaction.commit();
-        }
-        catch (Exception e){
-            if (transaction!=null){
+        }  
+        catch(Throwable t){
+            if(transaction!=null){
                 transaction.rollback();
+            }
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
             }
         }
         return foundProducts;
     }
 
     public ProductTypeEntity isProductNameExists(String productName) {
+        Session session = null;
         Transaction transaction = null;
         ProductTypeEntity product = new ProductTypeEntity();
-        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+        try{
+            session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
             product = this.productTypeRepository.getProductByName(productName);
             transaction.commit();
-        }catch (Exception e){
-            if (transaction!=null){
+        }  
+        catch(Throwable t){
+            if(transaction!=null){
                 transaction.rollback();
             }
-            e.printStackTrace();
+            t.printStackTrace();
+        }
+        finally {
+            if(session!=null){
+                session.close();
+            }
         }
         return product;
     }

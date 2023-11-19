@@ -11,10 +11,10 @@ import java.util.List;
 
 public class ProductRepository implements CrudInterface<ProductEntity> {
     @Override
-    public ProductEntity create(ProductEntity article) {
+    public ProductEntity create(ProductEntity product) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.persist(article);
-        return article;
+        session.persist(product);
+        return product;
     }
 
     @Override
@@ -26,16 +26,20 @@ public class ProductRepository implements CrudInterface<ProductEntity> {
     @Override
     public ProductEntity deleteById(Long id) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        ProductEntity article = getById(id);
-        if (article!=null){
-            session.remove(article);
+        ProductEntity product = getById(id);
+        if (product!=null){
+            session.remove(product);
         }
-        return article;
+        return product;
     }
 
     @Override
     public ProductEntity update(ProductEntity obj) {
-        return null;
+        Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+        if (obj!=null){
+            session.merge(obj);
+        }
+        return obj;
     }
 
     @Override
