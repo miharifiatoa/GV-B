@@ -15,7 +15,7 @@ public class PaymentModeEntity implements Serializable {
     @GeneratedValue
     private Long id;
     private String description;
-    @OneToMany(mappedBy = "paymentMode")
+    @OneToMany(mappedBy = "paymentMode" , fetch = FetchType.EAGER)
     private Collection<PaymentEntity> payments;
     public Long getId() {
         return id;
