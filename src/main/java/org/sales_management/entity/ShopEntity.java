@@ -15,7 +15,7 @@ public class ShopEntity implements Serializable {
     @Column(nullable = false)
     private String name;
     private String Address;
-    private Long contact;
+    private String contact;
     private String email;
 
     public Long getId() {
@@ -42,11 +42,11 @@ public class ShopEntity implements Serializable {
         Address = address;
     }
 
-    public Long getContact() {
+    public String getContact() {
         return contact;
     }
 
-    public void setContact(Long contact) {
+    public void setContact(String contact) {
         this.contact = contact;
     }
 
