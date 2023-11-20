@@ -17,6 +17,8 @@ public class ShopEntity implements Serializable {
     private String Address;
     private String contact;
     private String email;
+    @OneToMany(mappedBy = "shop" , fetch = FetchType.EAGER)
+    private Collection<ShareEntity> shares;
 
     public Long getId() {
         return id;
@@ -56,5 +58,13 @@ public class ShopEntity implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Collection<ShareEntity> getShares() {
+        return shares;
+    }
+
+    public void setShares(Collection<ShareEntity> shares) {
+        this.shares = shares;
     }
 }
