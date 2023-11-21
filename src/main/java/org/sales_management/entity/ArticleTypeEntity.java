@@ -30,7 +30,7 @@ public class ArticleTypeEntity implements Serializable {
     private Collection<ShareArticleEntity> shareArticles;
     @OneToMany(mappedBy = "articleType" , fetch = FetchType.EAGER)
     private Collection<ArrivalArticleEntity> arrivalArticles;
-    @OneToMany(mappedBy = "articleType", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "articleType", fetch = FetchType.EAGER)
     private Collection<StockHistoryEntity> stockHistories;
     public Long getId() {
         return id;

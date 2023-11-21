@@ -10,7 +10,7 @@ import org.sales_management.repository.*;
 import java.util.Collection;
 import java.util.HashSet;
 
-public class ArticleTypeService implements CrudInterface<ArticleTypeEntity> {
+public class  ArticleTypeService implements CrudInterface<ArticleTypeEntity> {
     private final ProductRepository productRepository;
     private final ProductTypeRepository productTypeRepository;
     private final ArticleTypeRepository articleTypeRepository;
