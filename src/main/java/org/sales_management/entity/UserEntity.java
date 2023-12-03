@@ -15,8 +15,8 @@ public class UserEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String role;
-    private Long cin;
-    private Long number;
+    private String cin;
+    private String number;
     private String email;
     @OneToOne
     @JoinColumn(name = "person_id")
@@ -45,19 +45,19 @@ public class UserEntity implements Serializable {
         this.person = person;
     }
 
-    public Long getCin() {
+    public String getCin() {
         return cin;
     }
 
-    public void setCin(Long cin) {
+    public void setCin(String cin) {
         this.cin = cin;
     }
 
-    public Long getNumber() {
+    public String getNumber() {
         return number;
     }
 
-    public void setNumber(Long number) {
+    public void setNumber(String number) {
         this.number = number;
     }
 

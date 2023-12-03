@@ -11,10 +11,10 @@ import org.hibernate.query.Query;
 
 public class ProductCategoryRepository implements CrudInterface<ProductCategoryEntity> {
     @Override
-    public ProductCategoryEntity create(ProductCategoryEntity obj) {
+    public ProductCategoryEntity create(ProductCategoryEntity productCategory) {
          Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        session.persist(obj);
-        return obj;
+        session.persist(productCategory);
+        return productCategory;
     }
 
     @Override
@@ -34,12 +34,12 @@ public class ProductCategoryRepository implements CrudInterface<ProductCategoryE
     }
 
     @Override
-    public ProductCategoryEntity update(ProductCategoryEntity obj) {
+    public ProductCategoryEntity update(ProductCategoryEntity productCategory) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        if (obj!=null){
-            session.merge(obj);
+        if (productCategory!=null){
+            session.merge(productCategory);
         }
-        return obj;
+        return productCategory;
     }
 
     @Override

@@ -20,11 +20,11 @@ public class ProductService implements CrudInterface<ProductEntity> {
     }
 
     @Override
-    public ProductEntity create(ProductEntity article) {
+    public ProductEntity create(ProductEntity product) {
         Transaction transaction = null;
         try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            this.productRepository.create(article);
+            this.productRepository.create(product);
             transaction.commit();
         }
         catch (Exception e){
@@ -32,16 +32,16 @@ public class ProductService implements CrudInterface<ProductEntity> {
                 transaction.rollback();
             }
         }
-        return article;
+        return product;
     }
 
     @Override
     public ProductEntity getById(Long id) {
         Transaction transaction = null;
-        ProductEntity article = new ProductEntity();
+        ProductEntity product = new ProductEntity();
         try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            article = this.productRepository.getById(id);
+            product = this.productRepository.getById(id);
             transaction.commit();
         }
         catch (Exception e){
@@ -49,16 +49,16 @@ public class ProductService implements CrudInterface<ProductEntity> {
                 transaction.rollback();
             }
         }
-        return article;
+        return product;
     }
 
     @Override
     public ProductEntity deleteById(Long id) {
         Transaction transaction = null;
-        ProductEntity article = new ProductEntity();
+        ProductEntity product = new ProductEntity();
         try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            article = this.productRepository.deleteById(id);
+            product = this.productRepository.deleteById(id);
             transaction.commit();
         }
         catch (Exception e){
@@ -66,21 +66,32 @@ public class ProductService implements CrudInterface<ProductEntity> {
                 transaction.rollback();
             }
         }
-        return article;
+        return product;
     }
 
     @Override
-    public ProductEntity update(ProductEntity obj) {
-        return null;
+    public ProductEntity update(ProductEntity product) {
+        Transaction transaction = null;
+        try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
+            transaction = session.beginTransaction();
+            product = this.productRepository.update(product);
+            transaction.commit();
+        }
+        catch (Exception e){
+            if (transaction!=null){
+                transaction.rollback();
+            }
+        }
+        return product;
     }
 
     @Override
     public Collection<ProductEntity> getAll() {
         Transaction transaction = null;
-        Collection<ProductEntity> articles = new HashSet<>();
+        Collection<ProductEntity> products = new HashSet<>();
         try(Session session = HibernateUtil.getSessionFactory().getCurrentSession()) {
             transaction = session.beginTransaction();
-            articles = this.productRepository.getAll();
+            products = this.productRepository.getAll();
             transaction.commit();
         }
         catch (Exception e){
@@ -88,22 +99,22 @@ public class ProductService implements CrudInterface<ProductEntity> {
                 transaction.rollback();
             }
         }
-        return articles;
+        return products;
     }
     public ProductEntity isUniqueValue(String code){
         Transaction transaction = null;
-        ProductEntity productCategory = new ProductEntity();
+        ProductEntity product = new ProductEntity();
         try {
             Session session = HibernateUtil.getSessionFactory().getCurrentSession();
             transaction = session.beginTransaction();
-            productCategory = this.productRepository.isUniqueValue(code);
+            product = this.productRepository.isUniqueValue(code);
             transaction.commit();
         } catch (HibernateException e) {
             if (transaction!=null){
                 transaction.rollback();
             }
         }
-        return productCategory;
+        return product;
     }
     
     public Collection<ProductEntity> searchProductsByName(String name){

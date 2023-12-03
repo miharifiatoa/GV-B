@@ -34,12 +34,12 @@ public class ProductRepository implements CrudInterface<ProductEntity> {
     }
 
     @Override
-    public ProductEntity update(ProductEntity obj) {
+    public ProductEntity update(ProductEntity product) {
         Session session = HibernateUtil.getSessionFactory().getCurrentSession();
-        if (obj!=null){
-            session.merge(obj);
+        if (product!=null){
+            session.merge(product);
         }
-        return obj;
+        return product;
     }
 
     @Override
