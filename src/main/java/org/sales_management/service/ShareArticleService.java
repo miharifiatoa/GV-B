@@ -1,5 +1,6 @@
 package org.sales_management.service;
 
+import org.sales_management.entity.ArticleEntity;
 import org.sales_management.entity.ArticleTypeEntity;
 import org.sales_management.entity.ShareArticleEntity;
 import org.sales_management.interfaces.CrudInterface;
@@ -33,9 +34,9 @@ public class ShareArticleService implements CrudInterface<ShareArticleEntity> {
     public Collection<ShareArticleEntity> getAll() {
         return null;
     }
-    public Collection<ShareArticleEntity> getSharesArticleInArticleByDate(ArticleTypeEntity article, LocalDate date) {
+    public Collection<ShareArticleEntity> getShareArticlesByDate(ArticleTypeEntity articleType, LocalDate date) {
         Collection<ShareArticleEntity> matchingShareArticles = new HashSet<>();
-        for (ShareArticleEntity shareArticle : article.getShareArticles()) {
+        for (ShareArticleEntity shareArticle : articleType.getShareArticles()) {
             LocalDate shareDate = shareArticle.getShareDate().toLocalDate();
             if (shareDate.equals(date)) {
                 matchingShareArticles.add(shareArticle);
